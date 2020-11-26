@@ -20,6 +20,8 @@
 //   },
 // });
 
+
+// Code Help for Front-End: https://github.com/Alhydra/React-Native-Login-Screen-Tutorial
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 // import logo from './assets/nourish.png';
