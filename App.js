@@ -24,9 +24,40 @@
 // Code Help for Front-End: https://github.com/Alhydra/React-Native-Login-Screen-Tutorial
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import * as SQLite from 'expo-sqlite';
+import * as FileSystem from 'expo-file-system';
 // import logo from './assets/nourish.png';
 
+const db = SQLite.openDatabase('.expo/databases/user.db') // returns Database object
+
 export default class App extends React.Component {
+
+  // constructor(props) {
+  //     super(props)
+  //     this.state = {
+  //       data: null
+  //     }
+  //     // Check if the items table exists if not create it
+  //     db.transaction(tx => {
+  //       tx.executeSql(
+  //         'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, email VARCHAR, password VARCHAR)'
+  //       )
+  //     })
+  //     this.fetchData() // ignore it for now
+  //   }
+  //
+  //   fetchData = () => {
+  //   db.transaction(tx => {
+  //     // sending 4 arguments in executeSql
+  //     tx.executeSql('SELECT * FROM items', null, // passing sql query and parameters:null
+  //       // success callback which sends two things Transaction object and ResultSet Object
+  //       (txObj, { rows: { _array } }) => this.setState({ data: _array })
+  //       // failure callback which sends two things Transaction object and Error
+  //       // (txObj, error) => console.log('Error ', error)
+  //       ) // end executeSQL
+  //   }) // end transaction
+  // }
+
   state={
     email:"",
     password:""
