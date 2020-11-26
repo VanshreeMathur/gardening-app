@@ -21,7 +21,8 @@
 // });
 
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+// import logo from './assets/nourish.png';
 
 export default class App extends React.Component {
   state={
@@ -31,6 +32,7 @@ export default class App extends React.Component {
   render(){
     return (
       <View style={styles.container}>
+
         <Text style={styles.logo}> Nourish Project </Text>
         <Text style={styles.logo2}> For Peterborough Gardeners </Text>
 
