@@ -1,35 +1,20 @@
-// import { StatusBar } from 'expo-status-bar';
-// import React from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
-//
-// export default function App() {
-//   return (
 //     <View style={styles.container}>
 //       <Text>Open up App.js to start working on your app!</Text>
 //       <StatusBar style="auto" />
 //     </View>
-//   );
-// }
-//
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+
 
 
 // Code Help for Front-End: https://github.com/Alhydra/React-Native-Login-Screen-Tutorial
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
+import Constants from 'expo-constants';
 // import logo from './assets/nourish.png';
 
-let db = SQLite.openDatabase('./databases/user.db') // returns Database object
-console.log(db)
+const db = SQLite.openDatabase('./databases/user.db') // returns Database object
 
 // Check if the items table exists if not create it
 db.transaction(tx => {
@@ -39,14 +24,16 @@ db.transaction(tx => {
   //   (txObj, resultSet) => this.setState({ data: this.state.data.concat(
   //       { id: resultSet.insertId, text: 'gibberish', count: 0 }) }),
   //   (txObj, error) => console.log('Error', error))
-  tx.executeSql(
-    console.log("test2"),
-    'create table if not exists user (user_id integer primary key autoincrement, user_name varchar, email_id , password varchar, postal_code char, gardener_type integer, location_prefs integer)', [], (tx) => {
-     console.log('----table works---')})
       // error => {console.log(error)}
-
-      // console.log(Users)
       // this.fetchData() // ignore it for now
+
+      tx.executeSql('SELECT user_name FROM User', null, // passing sql query and parameters:null
+        // success callback which sends two things Transaction object and ResultSet Object
+        (txObj, { rows: { _array } }) => this.setState({ data: _array }),
+        // failure callback which sends two things Transaction object and Error
+        (txObj, error) => console.log('Error ', error)
+        ) // end executeSQL
+
       console.log("test3")
 })
 
@@ -71,17 +58,6 @@ export default class App extends React.Component {
     }) // end transaction
   }
 
- //  newItem = () => {
- //    console.log("success")
- //   db.transaction(tx => {
- //     tx.executeSql('INSERT INTO User (user_id, user_name, email_id, password, postal_code, gardener_type, location_prefs) VALUES (1, "Vanshree", "vanshreemathur@trentu.ca", "1998", "K9H 4B6", 1, 1)', ['gibberish', 0],
- //       (txObj, resultSet) => this.setState({ data: this.state.data.concat(
- //           { id: resultSet.insertId, text: 'gibberish', count: 0 }) }),
- //       (txObj, error) => console.log('Error', error))
- //
- //   })
- //   console.log("success")
- // }
 
   state={
     email:"",
