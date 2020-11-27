@@ -28,7 +28,27 @@ import * as SQLite from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
 // import logo from './assets/nourish.png';
 
-const db = SQLite.openDatabase('./databases/user.db') // returns Database object
+let db = SQLite.openDatabase('./databases/user.db') // returns Database object
+console.log(db)
+
+// Check if the items table exists if not create it
+db.transaction(tx => {
+
+  console.log("test1")
+  // tx.executeSql('INSERT INTO User (user_id, user_name, email_id, password, postal_code, gardener_type, location_prefs) VALUES (1, "Vanshree", "vanshreemathur@trentu.ca", "1998", "K9H 4B6", 1, 1)', ['gibberish', 0],
+  //   (txObj, resultSet) => this.setState({ data: this.state.data.concat(
+  //       { id: resultSet.insertId, text: 'gibberish', count: 0 }) }),
+  //   (txObj, error) => console.log('Error', error))
+  tx.executeSql(
+    console.log("test2"),
+    'create table if not exists user (user_id integer primary key autoincrement, user_name varchar, email_id , password varchar, postal_code char, gardener_type integer, location_prefs integer)', [], (tx) => {
+     console.log('----table works---')})
+      // error => {console.log(error)}
+
+      // console.log(Users)
+      // this.fetchData() // ignore it for now
+      console.log("test3")
+})
 
 export default class App extends React.Component {
 
@@ -37,26 +57,31 @@ export default class App extends React.Component {
       this.state = {
         data: null
       }
-      // Check if the items table exists if not create it
-      db.transaction(tx => {
-        tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS User (user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR, email_id VARCHAR, password VARCHAR, postal_code CHAR, gardener_type INTEGER, location_prefs INTEGER)'
-        )
-      })
-      // this.fetchData() // ignore it for now
     }
-  //
-  //   fetchData = () => {
-  //   db.transaction(tx => {
-  //     // sending 4 arguments in executeSql
-  //     tx.executeSql('SELECT * FROM items', null, // passing sql query and parameters:null
-  //       // success callback which sends two things Transaction object and ResultSet Object
-  //       (txObj, { rows: { _array } }) => this.setState({ data: _array })
-  //       // failure callback which sends two things Transaction object and Error
-  //       // (txObj, error) => console.log('Error ', error)
-  //       ) // end executeSQL
-  //   }) // end transaction
-  // }
+
+    fetchData = () => {
+    db.transaction(tx => {
+      // sending 4 arguments in executeSql
+      tx.executeSql('SELECT user_name FROM User', null, // passing sql query and parameters:null
+        // success callback which sends two things Transaction object and ResultSet Object
+        (txObj, { rows: { _array } }) => this.setState({ data: _array }),
+        // failure callback which sends two things Transaction object and Error
+        (txObj, error) => console.log('Error ', error)
+        ) // end executeSQL
+    }) // end transaction
+  }
+
+ //  newItem = () => {
+ //    console.log("success")
+ //   db.transaction(tx => {
+ //     tx.executeSql('INSERT INTO User (user_id, user_name, email_id, password, postal_code, gardener_type, location_prefs) VALUES (1, "Vanshree", "vanshreemathur@trentu.ca", "1998", "K9H 4B6", 1, 1)', ['gibberish', 0],
+ //       (txObj, resultSet) => this.setState({ data: this.state.data.concat(
+ //           { id: resultSet.insertId, text: 'gibberish', count: 0 }) }),
+ //       (txObj, error) => console.log('Error', error))
+ //
+ //   })
+ //   console.log("success")
+ // }
 
   state={
     email:"",
