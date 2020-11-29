@@ -1,104 +1,117 @@
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-
-
-
 // Code Help for Front-End: https://github.com/Alhydra/React-Native-Login-Screen-Tutorial
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button, ActivityIndicator, FlatList } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
 import Constants from 'expo-constants';
 // import logo from './assets/nourish.png';
 
-const db = SQLite.openDatabase('./databases/user.db') // returns Database object
+// NOTE: MAKE SURE TO CHANGE YOUR DATA IN THE routes.js FILE SO IT WORKS WITH YOUR LOCAL DATABASE
+// HERE ARE THE LINKS TO HELP YOU
 
-// Check if the items table exists if not create it
-db.transaction(tx => {
-
-  console.log("test1")
-  // tx.executeSql('INSERT INTO User (user_id, user_name, email_id, password, postal_code, gardener_type, location_prefs) VALUES (1, "Vanshree", "vanshreemathur@trentu.ca", "1998", "K9H 4B6", 1, 1)', ['gibberish', 0],
-  //   (txObj, resultSet) => this.setState({ data: this.state.data.concat(
-  //       { id: resultSet.insertId, text: 'gibberish', count: 0 }) }),
-  //   (txObj, error) => console.log('Error', error))
-      // error => {console.log(error)}
-      // this.fetchData() // ignore it for now
-
-      tx.executeSql('SELECT user_name FROM User', null, // passing sql query and parameters:null
-        // success callback which sends two things Transaction object and ResultSet Object
-        (txObj, { rows: { _array } }) => this.setState({ data: _array }),
-        // failure callback which sends two things Transaction object and Error
-        (txObj, error) => console.log('Error ', error)
-        ) // end executeSQL
-
-      console.log("test3")
-})
-
-export default class App extends React.Component {
-
-  constructor(props) {
-      super(props)
-      this.state = {
-        data: null
-      }
-    }
-
-    fetchData = () => {
-    db.transaction(tx => {
-      // sending 4 arguments in executeSql
-      tx.executeSql('SELECT user_name FROM User', null, // passing sql query and parameters:null
-        // success callback which sends two things Transaction object and ResultSet Object
-        (txObj, { rows: { _array } }) => this.setState({ data: _array }),
-        // failure callback which sends two things Transaction object and Error
-        (txObj, error) => console.log('Error ', error)
-        ) // end executeSQL
-    }) // end transaction
-  }
+// DATABASE SETUP AND USE: https://dev.to/saulojoab/how-to-get-data-from-an-mysql-database-in-react-native-53a4
+// FETCHING DATA FROM THE DATABASE: https://reactnative.dev/docs/network
 
 
-  state={
-    email:"",
-    password:""
-  }
-  render(){
-    return (
-      <View style={styles.container}>
+export default App = () => {
 
-        <Text style={styles.logo}> Nourish Project </Text>
-        <Text style={styles.logo2}> For Peterborough Gardeners </Text>
+  // constants used for getting database info
 
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Email"
-            placeholderTextColor="#003f5c"
-            onChangeText={text => this.setState({email:text})}/>
-        </View>
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
-        <View style={styles.inputView} >
-          <TextInput
-            secureTextEntry
-            style={styles.inputText}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            onChangeText={text => this.setState({password:text})}/>
-        </View>
-        <TouchableOpacity>
-          <Text style={styles.forgot}>Forgot Password?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signupBtn}>
-          <Text style={styles.loginText}>Create a New Account</Text>
-        </TouchableOpacity>
+  // Gets and Stores Data from the Database
+
+  useEffect(() => {
+    fetch('http://YOURIP:3000/user')            //    REPLACE "YOURIP" WITH YOUR IP ADDRESS
+        .then((response) => response.json())
+        .then((json) => setData(json))
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+  }, []);
+
+  // States
+
+  this.state = {
+    email: "",
+    password: "",
+  };
+
+  return (
+
+    <View style={styles.container}>
+      
+      {/* The FlatList displays the data we got from the database. NOTE: This is what is causing the page layout to mess up.*/}
+
+      <FlatList
+        style = {styles.logo}
+        data={data}
+        keyExtractor={({ user_id }, index) => user_id}
+        renderItem={({item}) => (
+          <Text>{item.email}, {item.password} </Text>
+        
+        )}
+      />
+      
+
+
+      <Text style={styles.logo2}> {data} </Text>
+
+      {/* Titles */}
+
+      <Text style={styles.logo}> Nourish Project </Text>
+      <Text style={styles.logo2}> For Peterborough Gardeners </Text>
+
+      {/* Email text Box */}
+
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.inputText}
+          placeholder="Email"
+          placeholderTextColor="#003f5c"
+          onChangeText={(text) => this.setState({email : text})}/>
       </View>
-    );
-  }
+
+      {/* Password Text Box */}
+    
+      <View style={styles.inputView} >
+        <TextInput
+          secureTextEntry
+          style={styles.inputText}
+          placeholder="Password"
+          placeholderTextColor="#003f5c"
+          onChangeText={(password) => this.setState({password : password})}/>
+      </View>
+
+      {/*<Text style={styles.logo}> {this.state.email} </Text>*/}
+
+
+      {/* Forgot Password Button */}
+
+      <TouchableOpacity>
+        <Text style={styles.forgot}>Forgot Password?</Text>
+      </TouchableOpacity>
+
+      {/* Login Button */}
+      
+      <TouchableOpacity style={styles.loginBtn}>
+        <Text style={styles.loginText}>LOGIN</Text>
+      </TouchableOpacity>
+
+
+      {/* Create Account Button */}
+
+      <TouchableOpacity style={styles.signupBtn}>
+        <Text style={styles.loginText}>Create a New Account</Text>
+      </TouchableOpacity>
+    
+    </View>
+
+  ); 
+
+  
 }
 
 const styles = StyleSheet.create({
