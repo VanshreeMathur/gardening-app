@@ -44,21 +44,16 @@ export default App = () => {
     <View style={styles.container}>
       
       {/* The FlatList displays the data we got from the database. NOTE: This is what is causing the page layout to mess up.*/}
-
-      <FlatList
-        style = {styles.logo}
-        data={data}
-        keyExtractor={({ user_id }, index) => user_id}
-        renderItem={({item}) => (
-          <Text>{item.email}, {item.password} </Text>
-        
-        )}
-      />
-      
-
-
-      <Text style={styles.logo2}> {data} </Text>
-
+      <View style={styles.flatView}>
+        <FlatList
+          data={data}
+          keyExtractor={({ user_id }, index) => user_id}
+          renderItem={({item}) => (
+            <Text>{item.email}, {item.password} </Text>
+          
+          )}
+        />
+      </View>
       {/* Titles */}
 
       <Text style={styles.logo}> Nourish Project </Text>
@@ -184,5 +179,7 @@ const styles = StyleSheet.create({
     bottom:0,
     marginTop:40,
     // marginBottom:10
+  },flatView:{
+    height: 50
   }
 });
