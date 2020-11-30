@@ -42,7 +42,7 @@ export default App = () => {
   return (
 
     <View style={styles.container}>
-      
+
       {/* The FlatList displays the data we got from the database. NOTE: This is what is causing the page layout to mess up.*/}
       <View style={styles.flatView}>
         <FlatList
@@ -50,9 +50,10 @@ export default App = () => {
           keyExtractor={({ user_id }, index) => user_id}
           renderItem={({item}) => (
             <Text>{item.email}, {item.password} </Text>
-          
+
           )}
         />
+
       </View>
       {/* Titles */}
 
@@ -70,7 +71,7 @@ export default App = () => {
       </View>
 
       {/* Password Text Box */}
-    
+
       <View style={styles.inputView} >
         <TextInput
           secureTextEntry
@@ -90,7 +91,7 @@ export default App = () => {
       </TouchableOpacity>
 
       {/* Login Button */}
-      
+
       <TouchableOpacity style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
@@ -101,12 +102,12 @@ export default App = () => {
       <TouchableOpacity style={styles.signupBtn}>
         <Text style={styles.loginText}>Create a New Account</Text>
       </TouchableOpacity>
-    
+
     </View>
 
-  ); 
+  );
 
-  
+
 }
 
 const styles = StyleSheet.create({
