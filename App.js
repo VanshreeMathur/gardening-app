@@ -1,3 +1,4 @@
+
 // Code Help for Front-End: https://github.com/Alhydra/React-Native-Login-Screen-Tutorial
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
@@ -22,27 +23,19 @@ export default class App extends Component {
     // States
 
     this.state = {
+      // json data
       data: [],
+      // response password
+      respas: "",
+      // loading boolean
       isLoading: true,
+      // text field email
       email: "",
+      // text field password
       password: "",
     };
 
   }
-
-  // // Gets and Stores Data from the Database
-
-  componentDidMount() {
-    fetch('http://YOURIP:3000/user')            //    REPLACE "YOURIP" WITH YOUR IP ADDRESS
-    .then((response) => response.json())
-    .then((json) => {
-      this.setState({ data: json});
-    })
-    .catch((error) => console.error(error))
-    .finally(() => {
-      this.setState({ isLoading: false });
-    });
-  }  
 
   render() {
 
@@ -130,21 +123,25 @@ export default class App extends Component {
       <View style={styles.container}>
 
         {/* The FlatList displays the data we got from the database. NOTE: This is what is causing the page layout to mess up.*/}
-        <View style={styles.flatView}>
+        {/* <View style={styles.flatView}>
           <FlatList
             data={data}
             keyExtractor={({ user_id }, index) => user_id}
             renderItem={({item}) => (
-              <Text>{item.email}, {item.password} </Text>
-
+              <Text>  {item.password} </Text>
             )}
           />
 
-        </View>
+        </View> */}
+
         {/* Titles */}
 
         <Text style={styles.logo}> Nourish Project </Text>
         <Text style={styles.logo2}> For Peterborough Gardeners </Text>
+        
+        {/* Displays the response password*/}
+        <Text> {this.state.respas} </Text>
+              
 
         {/* Email text Box */}
 
@@ -178,7 +175,38 @@ export default class App extends Component {
 
         {/* Login Button */}
 
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity 
+          style={styles.loginBtn}
+          // when submit is pressed
+          onPress={() =>{
+            
+            // will fetch the user_id and password for the account with whatever email you provide in the url
+
+            fetch(`http://YOURIP:3000/api/users/${this.state.email}`)            //    REPLACE "YOURIP" WITH YOUR IP ADDRESS
+            .then((response) => response.json())
+            .then((json) => {
+              // store json in data state
+              this.setState({ data: json });
+            })
+            .catch((error) => console.error(error))
+            .finally(() => {
+              this.setState({ isLoading: false });
+            });
+            
+              try{
+                // store the password
+                this.setState({ respas : data[0]["password"]});
+              }
+              catch(error){
+                console.log("error");
+              }
+
+              // IMPORTANT: IF YOU DO NOT SEE THE PASSWORD POP UP ON THE SCREEN, PRESS SUBMIT AGAIN AND IT SHOULD WORK. THIS IS MY CURRENT PROBLEM.
+
+
+          }}
+        >
+
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
 
