@@ -207,7 +207,7 @@ class HomeScreen extends Component {
           }}
         >
 
-          <Text style={styles.loginText}>LOGIN</Text>
+          <Text style={styles.loginText} onPress={() => this.props.navigation.navigate('Profile')}> LOGIN </Text>
         </TouchableOpacity>
 
 
