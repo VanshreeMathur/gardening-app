@@ -1,0 +1,20 @@
+{
+  "demo": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gardeningappamplify-demo-190800-authRole",
+      "UnauthRoleArn": "arn:aws:iam::685773215120:role/amplify-gardeningappamplify-demo-190800-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::685773215120:role/amplify-gardeningappamplify-demo-190800-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-gardeningappamplify-demo-190800-deployment",
+      "UnauthRoleName": "amplify-gardeningappamplify-demo-190800-unauthRole",
+      "StackName": "amplify-gardeningappamplify-demo-190800",
+      "StackId": "arn:aws:cloudformation:us-east-1:685773215120:stack/amplify-gardeningappamplify-demo-190800/31779790-7a22-11eb-8575-0a43cdcd5209",
+      "AmplifyAppId": "degce1omev5wt"
+    },
+    "categories": {
+      "auth": {
+        "gardeningappamplify6f5c46b8": {}
+      }
+    }
+  }
+}

@@ -12,7 +12,12 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack'
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
-import ProfilePicture from 'react-native-profile-picture'
+import ProfilePicture from 'react-native-profile-picture';
+import { withAuthenticator } from 'aws-amplify-react-native'
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+// import MyTheme from './amplify/AuthUI/MyTheme.js';
+Amplify.configure(awsconfig);
 
 // import logo from './assets/nourish.png';
 
@@ -468,6 +473,7 @@ class Profile extends Component {
         },
         profileHeading:{
           // fontWeight:"bold",
+          marginTop:45,
           fontSize:40,
           color:"#ffffff",
           marginBottom:25
@@ -611,7 +617,7 @@ class Profile extends Component {
           {/* Create Account Button */}
 
           <TouchableOpacity style={styles.signupBtn}>
-          <Text style={styles.loginText} onPress={() => this.props.navigation.navigate('Home')}> LOGOUT </Text>
+          <Text style={styles.loginText} onPress={signOut}> LOGOUT </Text>
 
           </TouchableOpacity>
 
@@ -630,13 +636,33 @@ const AppNavigator = createStackNavigator(
         Profile: Profile
     },
     {
-        initialRouteName: "Home"
+        initialRouteName: "Profile"
     }
 );
 
 const AppContainer = createAppContainer(AppNavigator);
-export default class App extends Component {
-    render() {
-        return <AppContainer />;
-    }
+// const AppAuthentication = withAuthenticator(Profile);
+
+
+class App extends Component {
+      render() {
+          return (
+            <AppContainer />
+          );
+      }
+};
+
+export default withAuthenticator(App);
+
+
+
+
+
+async function signOut(){
+  try{
+    await Auth.signOut();
+  }
+  catch(error){
+    console.log("Error signing out : ", error);
+  }
 }
