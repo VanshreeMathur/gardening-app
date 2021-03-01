@@ -14,6 +14,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import ProfilePicture from 'react-native-profile-picture';
 import { withAuthenticator } from 'aws-amplify-react-native'
+import { Authenticator } from 'aws-amplify-react-native';
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
 // import MyTheme from './amplify/AuthUI/MyTheme.js';
@@ -652,9 +653,55 @@ class App extends Component {
       }
 };
 
-export default withAuthenticator(App);
+const signUpConfig = {
+      header: 'Create an Account',
+      hideAllDefaults: true,
+      defaultCountryCode: '1',
+      signUpFields: [
+        {
+          label: 'Username',
+          key: 'username',
+          placeholder: 'John Smith',
+          required: true,
+          displayOrder: 1,
+          type: 'string'
+        },
+        {
+          label: 'Password',
+          key: 'password',
+          placeholder: 'examplepassword123',
+          required: true,
+          displayOrder: 2,
+          type: 'password'
+        },
+        {
+          label: 'Email',
+          key: 'email',
+          placeholder: 'johnsmith@gmail.com',
+          required: true,
+          displayOrder: 3,
+          type: 'string'
+        },
+        {
+          label: 'Postal Code',
+          key: 'postalcode',
+          placeholder: 'K9H 4B6',
+          required: true,
+          displayOrder: 5,
+          type: 'string'
+        },
+        {
+          label: 'Type of Farmer',
+          key: 'farmertype',
+          placeholder: 'Community Farmer or Backyard Farmer',
+          required: true,
+          displayOrder: 6,
+          type: 'string'
+        },
+  ]
+};
 
-
+export default withAuthenticator(App, { signUpConfig });
 
 
 
