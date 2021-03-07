@@ -1,43 +1,55 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createUserPost = /* GraphQL */ `
+  mutation CreateUserPost(
+    $input: CreateUserPostInput!
+    $condition: ModelUserPostConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
+    createUserPost(input: $input, condition: $condition) {
       id
-      name
-      description
+      user_id
+      product_type
+      product_size
+      product_quantity
+      timeline_start
+      timeline_end
       createdAt
       updatedAt
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
+export const updateUserPost = /* GraphQL */ `
+  mutation UpdateUserPost(
+    $input: UpdateUserPostInput!
+    $condition: ModelUserPostConditionInput
   ) {
-    updateTodo(input: $input, condition: $condition) {
+    updateUserPost(input: $input, condition: $condition) {
       id
-      name
-      description
+      user_id
+      product_type
+      product_size
+      product_quantity
+      timeline_start
+      timeline_end
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
+export const deleteUserPost = /* GraphQL */ `
+  mutation DeleteUserPost(
+    $input: DeleteUserPostInput!
+    $condition: ModelUserPostConditionInput
   ) {
-    deleteTodo(input: $input, condition: $condition) {
+    deleteUserPost(input: $input, condition: $condition) {
       id
-      name
-      description
+      user_id
+      product_type
+      product_size
+      product_quantity
+      timeline_start
+      timeline_end
       createdAt
       updatedAt
     }

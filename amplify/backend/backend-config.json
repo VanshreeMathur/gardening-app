@@ -1,6 +1,6 @@
 {
   "api": {
-    "projectapi": {
+    "NewAPI": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -9,7 +9,7 @@
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
               "apiKeyExpirationDays": 7,
-              "description": "demo"
+              "description": "key"
             }
           },
           "additionalAuthenticationProviders": []
@@ -18,7 +18,7 @@
     }
   },
   "auth": {
-    "gardeningappamplify6f5c46b8": {
+    "nourishprojectf5609747": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

@@ -1,4 +1,22 @@
 {
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-nourishproject-dev-150931-authRole",
+      "UnauthRoleArn": "arn:aws:iam::266156149194:role/amplify-nourishproject-dev-150931-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::266156149194:role/amplify-nourishproject-dev-150931-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-nourishproject-dev-150931-deployment",
+      "UnauthRoleName": "amplify-nourishproject-dev-150931-unauthRole",
+      "StackName": "amplify-nourishproject-dev-150931",
+      "StackId": "arn:aws:cloudformation:us-east-1:266156149194:stack/amplify-nourishproject-dev-150931/34a51990-76dc-11eb-93b8-124ddee56cf7",
+      "AmplifyAppId": "d2rdn5rj41hox8"
+    },
+    "categories": {
+      "auth": {
+        "nourishprojectf5609747": {}
+      }
+    }
+  },
   "demo": {
     "awscloudformation": {
       "AuthRoleName": "amplify-gardeningappamplify-demo-190800-authRole",
