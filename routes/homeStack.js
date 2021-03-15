@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
-import Home from '../screens/Home';
-import UserPost from '../screens/UserPost';
-import Stats from '../screens/Stats';
+import Home from '../screens/Home.js';
+import UserPost from '../screens/UserPost.js';
+import Stats from '../screens/Stats.js';
 
 const screens = {
 

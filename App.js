@@ -3,7 +3,7 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 
-import Navigator from './routes/homeStack';
+import Navigator from './routes/homeStack.js';
 
 import { withAuthenticator } from 'aws-amplify-react-native'
 import Amplify, { Auth } from 'aws-amplify';
