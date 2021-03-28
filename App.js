@@ -139,24 +139,6 @@ const MyTheme = StyleSheet.create({
   },
 });
 
-// class App extends Component {
-//       render() {
-//           return (
-//             <Authenticator theme={MyTheme} >
-//              <Navigator />
-//             </Authenticator>
-//           );
-//       }
-//
-//       componentWillUnmount() {
-//           // fix Warning: Can't perform a React state update on an unmounted component
-//           this.setState = (state,callback)=>{
-//               return;
-//           };
-//       }
-// };
-
-
 const signUpConfig = {
       header: 'Create an Account',
       hideAllDefaults: true,
