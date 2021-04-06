@@ -1,7 +1,7 @@
 type UserPost @model {
   id: ID!
   user_id: Int!
-  product_type: String!
+  product_type: Int!
   product_size: Int!
   product_quantity: Int!
   timeline_start: String!
