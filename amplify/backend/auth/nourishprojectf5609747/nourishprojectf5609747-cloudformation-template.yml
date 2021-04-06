@@ -156,9 +156,13 @@ Resources:
         Ref: smsVerificationMessage
       SmsConfiguration:
         SnsCallerArn:
+<<<<<<< HEAD
           Fn::GetAtt:
             - SNSRole
             - Arn
+=======
+          Fn::GetAtt: SNSRole.Arn
+>>>>>>> 9129e5f37c3ec1d5a7280db220e2a933c3464032
         ExternalId: nourisf5609747_role_external_id
   UserPoolClientWeb:
     Type: AWS::Cognito::UserPoolClient
@@ -257,9 +261,13 @@ Resources:
             Action:
               - cognito-idp:DescribeUserPoolClient
             Resource:
+<<<<<<< HEAD
               Fn::GetAtt:
                 - UserPool
                 - Arn
+=======
+              Fn::GetAtt: UserPool.Arn
+>>>>>>> 9129e5f37c3ec1d5a7280db220e2a933c3464032
     DependsOn: UserPoolClientLambda
   UserPoolClientLogPolicy:
     Type: AWS::IAM::Policy
@@ -290,9 +298,13 @@ Resources:
     Type: Custom::LambdaCallout
     Properties:
       ServiceToken:
+<<<<<<< HEAD
         Fn::GetAtt:
           - UserPoolClientLambda
           - Arn
+=======
+        Fn::GetAtt: UserPoolClientLambda.Arn
+>>>>>>> 9129e5f37c3ec1d5a7280db220e2a933c3464032
       clientId:
         Ref: UserPoolClient
       userpoolId:
@@ -350,9 +362,13 @@ Outputs:
     Description: Id for the identity pool
   IdentityPoolName:
     Value:
+<<<<<<< HEAD
       Fn::GetAtt:
         - IdentityPool
         - Name
+=======
+      Fn::GetAtt: IdentityPool.Name
+>>>>>>> 9129e5f37c3ec1d5a7280db220e2a933c3464032
   UserPoolId:
     Value:
       Ref: UserPool
@@ -370,7 +386,11 @@ Outputs:
     Description: The user pool app client id
   AppClientSecret:
     Value:
+<<<<<<< HEAD
       Fn::GetAtt:
         - UserPoolClientInputs
         - appSecret
+=======
+      Fn::GetAtt: UserPoolClientInputs.appSecret
+>>>>>>> 9129e5f37c3ec1d5a7280db220e2a933c3464032
     Condition: ShouldOutputAppClientSecrets

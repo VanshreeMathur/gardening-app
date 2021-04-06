@@ -1,28 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { ProfilePicture } from 'react-native-profile-picture';
-
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from '.././aws-exports';
-Amplify.configure(awsconfig);
 
-async function signOut(){
-  try{
-    await Auth.signOut();
-  }
-  catch(error){
-    console.log("Error signing out : ", error);
-  }
-}
 
-export default function Home({ navigation }){
+export default function Home({ navigation, updateAuthState }){
 
     const pressHandler1 = () => {
         navigation.navigate('UserPostScreen');
     }
     const pressHandler2 = () => {
         navigation.navigate('StatsScreen');
-    } 
+    }
+
+    async function signOut(){
+      try{
+        await Auth.signOut();
+        console.log('✅ Successfully Logged Out');
+        updateAuthState('loggedOut');
+      }
+      catch(error){
+        console.log("Error signing out : ", error);
+      }
+    }
+
 
     return(
 
@@ -61,9 +63,9 @@ export default function Home({ navigation }){
             <Text style={styles.loginText}>View Statistics</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.signupBtn} onPress={signOut}>
-          
-            <Text style={styles.loginText}> LOGOUT </Text>
+          <TouchableOpacity style={styles.signupBtn} onPress= {signOut}>
+
+            <Text style={styles.loginText}> LOG OUT </Text>
 
           </TouchableOpacity>
 
