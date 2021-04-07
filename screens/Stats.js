@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+//import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text,TouchableOpacity, Button, Alert } from 'react-native';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis} from "victory-native";
 import * as queries from '../graphql/queries';
@@ -13,7 +14,7 @@ Amplify.configure(awsconfig)
 //========================================================================================================
 //DROP DOWN PICKER  (when button is clicked in the stats function it submits the user data from this list to the graph)
 
-var pickerData = ["Cucumber"]; // array that will contain each value selected 
+var pickerData = [""]; // array that will contain each value selected 
 pickerDataElement = 0; // counter for elements in array 'pickerData' as well as allows us to populate array
 export const Dropdown = () => {
   return (
@@ -28,7 +29,7 @@ export const Dropdown = () => {
               { label: 'Radish', value: 'radish' },
               { label: 'Potato', value: 'potato' },
               { label: 'Squash', value: 'squash' },
-              { label: 'Cucumber', value: 'cucumber' },
+              { label: 'Cucumbers', value: 'cucumber' },
               { label: 'Bean', value: 'bean' },
               { label: 'Garlic', value: 'garlic' },
               { label: 'Beet', value: 'beet' },
@@ -112,7 +113,7 @@ const test = async function testingMultipleFilters(){
   //takes array and creates a filter for each element in array
   try{
     let testFilter = {
-      and: [{ product_type: {eq:"Cucumber"}},
+      and: [{ product_type: {eq:pickerData[0]}},
     { product_quantity: {ge: 0} }]
        // everything should be available with this filter aka even vegetables you havent grown.
        // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
@@ -131,9 +132,9 @@ const test = async function testingMultipleFilters(){
 //=========================================================
 
 var graphOneData = [pleaseWork.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
+console.log("pickerData[0]");
+console.log("Quantity of Cucumbers is:", pickerData[0].product_quantity); // produces response "undefined" currently, most likely because user posts dont work rn so no data in database
 
-console.log("Quantity of Cucumbers is:", pleaseWork.product_quantity); // produces response "undefined" currently, most likely because user posts dont work rn so no data in database
-console.log(pickerData[0]);
 
 
 
@@ -169,9 +170,7 @@ console.log(pickerData[0]);
 const graphOneYData = [ // graph one data used for type vs quantity
 
     {ProductType: 1, ProductQuantity: graphOneData},
-    {ProductType: 2, ProductQuantity: 55},
-    {ProductType: 3, ProductQuantity: 200},
-    {ProductType: 4, ProductQuantity: 12}
+   
 
 ];
 
@@ -201,24 +200,54 @@ const graphThreeYData = [ // graph two data for type vs size
 // the if else statement
 //******************** 
 
+
 export default function Stats({navigation}){
 
-  const pressHandler1 = () => {
-    navigation.navigate('UserPostScreen');
-}
+  
+  const [pickerResult, setPickerResult] = useState('Cucumbers'); // sets initial state of graph to cucumbers
+
+  // updates graph using drop down lists data
+  const updateGraphHandler = () => {
+    setPickerResult(pickerData[0]);
+  }
 
  // if() // if we are using product quantity vs type   (if user data == this type of graph)
   {
     return(
 
+     
 //==================================================
 // BUTTON FOR SUBMITTING USER DROP DOWN PICKER DATA
 //==================================================
 <View style={styles.container}>
-<TouchableOpacity style={styles.profileButtons} onPress = {pressHandler1}>
+<TouchableOpacity style={styles.profileButtons} onPress = {updateGraphHandler}>
             <Text style={styles.loginText}>Submit</Text>
           </TouchableOpacity>
         
+
+<View style={styles.picker}>
+      <RNPickerSelect
+      pickerProps={{
+        title: 'X Axis Options'
+      }}
+        onValueChange={(value) => (pickerData[0] = value)}
+        items={[
+          { label: 'Tomatoes', value: 'Tomatoes'},
+          { label: 'Lettuce', value: 'Lettuce'},
+          { label: 'Kale', value: 'Kale'},
+          { label: 'Carrots', value: 'Carrots'},
+          { label: 'Peppers', value: 'Peppers'},
+          { label: 'Radishes', value: 'Radishes'},
+          { label: 'Potatoes', value: 'Potatoes'},
+          { label: 'Squash', value: 'Squash'},
+          { label: 'Cucumbers', value: 'Cucumbers'},
+          { label: 'Beans', value: 'Beans'},
+          { label: 'Garlic', value:'Garlic'},
+          { label: 'Beets', value: 'Beets'}
+        ]}
+        //style={customPickerStyles.inputIOS}
+      />
+    </View>
 
      { // if else statement to decide what graph to use based on what graph style is selected by user...
 
@@ -235,8 +264,8 @@ export default function Stats({navigation}){
       <VictoryAxis
       label="Product Type"
       style={{axisLabel:{padding: 30}}}
-        tickValues={[1, 2, 3, 4]}
-        tickFormat={["Vegetable 1", "Vegetable 2", "Vegetable 3", "Vegetable 4"]}
+        tickValues={[1]}
+        tickFormat={[pickerData[0]]}
       />
       <VictoryAxis
         dependentAxis
@@ -370,5 +399,14 @@ const styles = StyleSheet.create({
           justifyContent:"center",
           marginTop:20,
           marginBottom:10
+          },
+          picker: {
+            width:"80%",
+            backgroundColor:"#ffffff",
+            borderRadius:15,
+            height:50,
+            marginBottom:20,
+            justifyContent:"center",
+            padding:20,
           }
 });
