@@ -1,4 +1,3 @@
-
 type UserPost @model {
   id: ID!
   user_id: Int!

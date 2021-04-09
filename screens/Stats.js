@@ -232,18 +232,18 @@ export default function Stats({navigation}){
       }}
         onValueChange={(value) => (pickerData[0] = value)}
         items={[
-          { label: 'Tomatoes', value: 'Tomatoes'},
-          { label: 'Lettuce', value: 'Lettuce'},
-          { label: 'Kale', value: 'Kale'},
-          { label: 'Carrots', value: 'Carrots'},
-          { label: 'Peppers', value: 'Peppers'},
-          { label: 'Radishes', value: 'Radishes'},
-          { label: 'Potatoes', value: 'Potatoes'},
-          { label: 'Squash', value: 'Squash'},
-          { label: 'Cucumbers', value: 'Cucumbers'},
-          { label: 'Beans', value: 'Beans'},
-          { label: 'Garlic', value:'Garlic'},
-          { label: 'Beets', value: 'Beets'}
+          { label: 'Tomatoes', value: 0},
+          { label: 'Lettuce', value: 1},
+          { label: 'Kale', value: 2},
+          { label: 'Carrots', value: 3},
+          { label: 'Peppers', value: 4},
+          { label: 'Radishes', value: 5},
+          { label: 'Potatoes', value: 6},
+          { label: 'Squash', value: 7},
+          { label: 'Cucumbers', value: 8},
+          { label: 'Beans', value: 9},
+          { label: 'Garlic', value: 10},
+          { label: 'Beets', value: 11}
         ]}
         //style={customPickerStyles.inputIOS}
       />

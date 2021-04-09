@@ -8,10 +8,10 @@ import Amplify, { Auth } from 'aws-amplify';
 export default function Home({ navigation, updateAuthState }){
 
     const pressHandler1 = () => {
-        navigation.navigate('UserPostScreen');
+        navigation.navigate('Harvest');
     }
     const pressHandler2 = () => {
-        navigation.navigate('StatsScreen');
+        navigation.navigate('Stats');
     }
 
     async function signOut(){

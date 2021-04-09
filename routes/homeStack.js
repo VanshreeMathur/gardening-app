@@ -8,13 +8,13 @@ import SignIn from '../screens/SignIn.js'
 const screens = {
 
     // top screen is default
-    HomeScreen: {
+    Home: {
         screen: Home
     },
-    UserPostScreen: {
+    Harvest: {
         screen: UserPost
     },
-    StatsScreen: {
+    Stats: {
         screen: Stats
     },
     SignInScreen: {
