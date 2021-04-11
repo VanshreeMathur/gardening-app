@@ -4,7 +4,11 @@ import * as WebBrowser from 'expo-web-browser';
 import { ActivityIndicator } from 'react-native';
 import { ProfilePicture } from 'react-native-profile-picture';
 import Amplify, { Auth } from 'aws-amplify';
+import { withAuthenticator, Authenticator } from 'aws-amplify-react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Navigator from '../routes/homeStack.js';
 
+//Test
 
 export default function Home({ navigation, updateAuthState }){
 

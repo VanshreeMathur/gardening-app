@@ -17,6 +17,8 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import ConfirmSignUp from './screens/ConfirmSignUp';
 import Home from './screens/Home';
+import Harvest from './screens/UserPost.js';
+import Stats from './screens/Stats.js';
 
 Amplify.configure(awsconfig);
 
@@ -43,7 +45,17 @@ const AppNavigator = props => {
     <AppStack.Navigator>
       <AppStack.Screen name="Home">
         {screenProps => (
-          <Home {...screenProps} updateAuthState={props.updateAuthState} />
+          <Home {...screenProps} updateAuthState={props.updateAuthState}/>
+        )}
+      </AppStack.Screen>
+      <AppStack.Screen name="Harvest">
+        {screenProps => (
+          <Harvest {...screenProps} updateAuthState={props.updateAuthState}/>
+        )}
+      </AppStack.Screen>
+      <AppStack.Screen name="Stats">
+        {screenProps => (
+          <Stats {...screenProps} updateAuthState={props.updateAuthState}/>
         )}
       </AppStack.Screen>
     </AppStack.Navigator>
@@ -53,7 +65,7 @@ const AppNavigator = props => {
 const Initializing = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" color="tomato" />
+      <ActivityIndicator size="large" color="#29C16C" />
     </View>
   );
 };
@@ -79,11 +91,13 @@ function App() {
     setUserLoggedIn(isUserLoggedIn);
   }
 
+//&& <Navigator />
+
   return (
     <NavigationContainer>
         {isUserLoggedIn === 'initializing' && <Initializing />}
         {isUserLoggedIn === 'loggedIn' && (
-          <AppNavigator updateAuthState={updateAuthState}/> && <Navigator />
+          <AppNavigator updateAuthState={updateAuthState}/>
         )}
         {isUserLoggedIn === 'loggedOut' && (
           <AuthenticationNavigator updateAuthState={updateAuthState} />

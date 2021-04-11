@@ -17,7 +17,7 @@ const screens = {
     Stats: {
         screen: Stats
     },
-    SignInScreen: {
+    SignIn: {
       screen: SignIn
     },
 }
