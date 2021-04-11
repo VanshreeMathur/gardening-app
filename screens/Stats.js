@@ -14,7 +14,7 @@ Amplify.configure(awsconfig)
 //========================================================================================================
 //DROP DOWN PICKER  (when button is clicked in the stats function it submits the user data from this list to the graph)
 
-var pickerData = [""]; // array that will contain each value selected 
+var pickerData = [""]; // array that will contain each value selected
 pickerDataElement = 0; // counter for elements in array 'pickerData' as well as allows us to populate array
 export const Dropdown = () => {
   return (
@@ -22,7 +22,7 @@ export const Dropdown = () => {
           onValueChange={(value) => (pickerData[pickerDataElement] = value), pickerDataElement += 1/*console.log(value)*/} // sets value in array and goes to next element in array
           items={[
               { label: 'Tomato', value: 'tomato' },
-              { label: 'Lettuce', value: 'lettuce' },
+              { label: 'Head of Lettuce', value: 'lettuce' },
               { label: 'Kale', value: 'kale' },
               { label: 'Carrot', value: 'carrot' },
               { label: 'Peppers', value: 'peppers' },
@@ -41,7 +41,7 @@ export const Dropdown = () => {
 
     // Simple query
 //const allTodos = await API.graphql(graphqlOperation{ query: queries.listTodos });
-//console.log(allTodos);  result: { "data": { "listTodos": { "items": [] } } } 
+//console.log(allTodos);  result: { "data": { "listTodos": { "items": [] } } }
 /*
 // Query using a parameter
 async function productTypeFilter(){
@@ -75,8 +75,8 @@ client.query({
 async function ProductXFilter(){
     let xfilter = {
       product_quantity: {ge: 0}
-             
-        
+
+
     };
    filterXData = await API.graphql({ query: listProducts, variables: {filter: xfilter}}); // gets a list of products with the x filter aka only a list of userposts with cucumbers.
    console.log(filterXData);
@@ -97,12 +97,12 @@ try{
   { product_quantity: {ge: 0} }]
      // everything should be available with this filter aka even vegetables you havent grown.
      // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
-    
+
 }
 const filterYData = await API.graphql({ query: listProducts, variables: {filter: yfilter}});
 return filterYData;
 } catch (err) { console.log('Error creating filter.')};
-   
+
 }
 //========================================================================================================
 
@@ -117,12 +117,12 @@ const test = async function testingMultipleFilters(){
     { product_quantity: {ge: 0} }]
        // everything should be available with this filter aka even vegetables you havent grown.
        // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
-      
+
   }
   const filterYData = await API.graphql({ query: listProducts, variables: {filter: yfilter}});
   return filterYData;
   } catch (err) { console.log('Error creating filter.')};
-     
+
   }
 
 
@@ -143,21 +143,21 @@ console.log("Quantity of Cucumbers is:", pickerData[0].product_quantity); // pro
 //console.log(filterYData);
    // const data = filteredData;
 
-// filter needs to 
-// 1. select all product type user wants to see, 2. show the product type vs time or vs quantity etc 
+// filter needs to
+// 1. select all product type user wants to see, 2. show the product type vs time or vs quantity etc
 
 
 //const data = UserPost.map((userPost, index) => (
-                
-               
-            
+
+
+
                 //{userPost: product_type, userPost: product_quantity}
-               
-               
-             
+
+
+
 
            // ))
-            
+
 
 
 //const data = [listUserPosts(items(filter))];
@@ -170,11 +170,11 @@ console.log("Quantity of Cucumbers is:", pickerData[0].product_quantity); // pro
 const graphOneYData = [ // graph one data used for type vs quantity
 
     {ProductType: 1, ProductQuantity: graphOneData},
-   
+
 
 ];
 
-const graphTwoYData = [ // graph two data for type vs size 
+const graphTwoYData = [ // graph two data for type vs size
 
   {ProductType: 1, ProductQuantity: graphTwoYData},
   {ProductType: 2, ProductQuantity: 55},
@@ -183,7 +183,7 @@ const graphTwoYData = [ // graph two data for type vs size
 
 ];
 
-const graphThreeYData = [ // graph two data for type vs size 
+const graphThreeYData = [ // graph two data for type vs size
 
   {ProductType: 1, ProductQuantity: graphThreeYData},
   {ProductType: 2, ProductQuantity: 55},
@@ -193,17 +193,17 @@ const graphThreeYData = [ // graph two data for type vs size
 ];
 
 // needs to return the drop down list and button first regardless, then do an if statement to return a specific graph based on the user data taken from the drop down list
-// the action of pressing the button submits the data from the drop down list. 
+// the action of pressing the button submits the data from the drop down list.
 
 // ****************
 // doesnt work rn because the button and list need to be within a return, but the if else statement needs to be outside of a return, but the code isnt reached if i use a return before
 // the if else statement
-//******************** 
+//********************
 
 
 export default function Stats({navigation}){
 
-  
+
   const [pickerResult, setPickerResult] = useState('Cucumbers'); // sets initial state of graph to cucumbers
 
   // updates graph using drop down lists data
@@ -215,7 +215,7 @@ export default function Stats({navigation}){
   {
     return(
 
-     
+
 //==================================================
 // BUTTON FOR SUBMITTING USER DROP DOWN PICKER DATA
 //==================================================
@@ -223,7 +223,7 @@ export default function Stats({navigation}){
 <TouchableOpacity style={styles.profileButtons} onPress = {updateGraphHandler}>
             <Text style={styles.loginText}>Submit</Text>
           </TouchableOpacity>
-        
+
 
 <View style={styles.picker}>
       <RNPickerSelect
@@ -233,7 +233,7 @@ export default function Stats({navigation}){
         onValueChange={(value) => (pickerData[0] = value)}
         items={[
           { label: 'Tomatoes', value: 0},
-          { label: 'Lettuce', value: 1},
+          { label: 'Head of Lettuce', value: 1},
           { label: 'Kale', value: 2},
           { label: 'Carrots', value: 3},
           { label: 'Peppers', value: 4},
@@ -252,7 +252,7 @@ export default function Stats({navigation}){
      { // if else statement to decide what graph to use based on what graph style is selected by user...
 
 //============================================================================================================================
-//GRAPH STYLE 1 
+//GRAPH STYLE 1
 // Y axis is Product_Quantity
 //This graph is used if user selects product_type vs product_quantity
 }
@@ -270,7 +270,7 @@ export default function Stats({navigation}){
       <VictoryAxis
         dependentAxis
         label="Product Quantity"
-        style={{axisLabel:{padding: 40}}} 
+        style={{axisLabel:{padding: 40}}}
         tickFormat={(x) => (`${x / 1}`)} // determines the range on our y axis (change 1000 to change the numbers shown on the y axis)
       />
       <VictoryBar
@@ -278,7 +278,7 @@ export default function Stats({navigation}){
         x="ProductType"
         y="ProductQuantity"
       />
-    </VictoryChart>    
+    </VictoryChart>
 
     </View>
     )
@@ -288,7 +288,7 @@ export default function Stats({navigation}){
   {
     return(
             //============================================================================================================================
-      //GRAPH STYLE 2 
+      //GRAPH STYLE 2
       // Y axis is Product_size
       // this graph is used if the user selects product_type vs product_size
 
@@ -307,7 +307,7 @@ export default function Stats({navigation}){
       <VictoryAxis
         dependentAxis
         label="Product Size"
-        style={{axisLabel:{padding: 40}}} 
+        style={{axisLabel:{padding: 40}}}
         tickFormat={(x) => (`${x / 1}`)} // determines the range on our y axis (change 1000 to change the numbers shown on the y axis)
       />
       <VictoryBar
@@ -315,7 +315,7 @@ export default function Stats({navigation}){
         x="ProductType"
         y="ProductQuantity"
       />
-    </VictoryChart>    
+    </VictoryChart>
     )
   }
 
@@ -341,7 +341,7 @@ export default function Stats({navigation}){
       <VictoryAxis
         dependentAxis
         label="Timeline Start"
-        style={{axisLabel:{padding: 40}}} 
+        style={{axisLabel:{padding: 40}}}
         tickFormat={(x) => (`${x / 1}`)} // determines the range on our y axis (change 1000 to change the numbers shown on the y axis)
       />
       <VictoryBar
@@ -349,7 +349,7 @@ export default function Stats({navigation}){
         x="ProductType"
         y="ProductQuantity"
       />
-    </VictoryChart>    
+    </VictoryChart>
     )
   }
     */
@@ -360,7 +360,7 @@ export default function Stats({navigation}){
 
 
 
- 
+
 
 
 
