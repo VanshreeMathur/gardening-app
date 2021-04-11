@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AppTextInput from '../components/AppTextInput';
@@ -18,6 +18,15 @@ export default function SignUp({ navigation }) {
       navigation.navigate('ConfirmSignUp');
     } catch (error) {
       console.log('❌ Error signing up...', error);
+      Alert.alert(
+        "Error",
+        "❌ Error signing up... please enter a username, password and a valid email address",
+        [
+          {
+            text: "Try Again!",
+          }
+        ]
+      )
     }
   }
   return (

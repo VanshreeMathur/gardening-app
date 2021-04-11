@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, Alert } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AppTextInput from '../components/AppTextInput';
@@ -17,6 +17,15 @@ export default function SignIn({ navigation, updateAuthState }) {
       updateAuthState('loggedIn');
     } catch (error) {
       console.log('❌ Error signing in...', error);
+      Alert.alert(
+        "Error",
+        "❌ Error signing in...Incorrect Credentials",
+        [
+          {
+            text: "Try Again!",
+          }
+        ]
+      )
     }
   }
   return (
