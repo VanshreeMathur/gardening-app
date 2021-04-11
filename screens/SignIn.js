@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
     fontWeight: '500',
-    marginVertical: 15
+    marginVertical: 15,
+    fontStyle: 'italic'
   },
   footerButtonContainer: {
     marginVertical: 15,
