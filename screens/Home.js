@@ -15,10 +15,6 @@ export default function Home({ navigation, updateAuthState }){
         navigation.navigate('Stats');
     }
 
-    const pressHandler3 = () => {
-        navigation.navigate('Contact');
-    }
-
     async function signOut(){
       try{
         await Auth.signOut();
