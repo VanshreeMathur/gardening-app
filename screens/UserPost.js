@@ -25,8 +25,8 @@ const DismissKeyboard = ({ children }) => (
   </TouchableWithoutFeedback>
 )
 
-export default function UserPost(){ 
-  
+export default function UserPost(){
+
   // this.state = {date: Date.now()}
 
   const [formState, setFormState] = useState(initialState);
@@ -70,7 +70,7 @@ export default function UserPost(){
       setUserPosts([...userPosts, userPost]);
       setFormState(initialState);
       await API.graphql(graphqlOperation(createUserPost, {input: userPost}));
-      
+
     } catch (err) {
       // console.log('Error creating post:', err);
     }
@@ -90,21 +90,21 @@ export default function UserPost(){
       value: 2
     }
   ]
-  
+
     return (
       <DismissKeyboard>
 
         <View style={styles.container}>
           {/* <Text style={styles.logo}> My Harvest </Text> */}
-          
+
           <Text style = {styles.headings}> Product Type </Text>
-            
+
           <View style={styles.picker}>
             <RNPickerSelect
               onValueChange={(value) => setInput('product_type',value)}
               items={[
                 { label: 'Tomatoes', value: 0},
-                { label: 'Lettuce', value: 1},
+                { label: 'Head of Lettuce', value: 1},
                 { label: 'Kale', value: 2},
                 { label: 'Carrots', value: 3},
                 { label: 'Peppers', value: 4},
@@ -119,11 +119,11 @@ export default function UserPost(){
               style={customPickerStyles.inputIOS}
             />
           </View>
-          
+
           <View style = {styles.inputText}>
             <Text style = {styles.headings}> Average Product Size </Text>
           </View>
-          
+
           <View style={styles.btnBox}>
             <RadioButtonRN
               data = {buttonData}
@@ -135,7 +135,7 @@ export default function UserPost(){
 
           <View style = {styles.headings}>
               <Text style = {styles.headings}> Estimated Pieces of Product </Text>
-          </View>        
+          </View>
 
           <View style={styles.inputView} >
           <TextInput
@@ -146,7 +146,7 @@ export default function UserPost(){
               placeholder = "Product Quantity"
               />
           </View>
-            
+
 
           {/* DATE PICKERS HERE */}
 
@@ -175,7 +175,7 @@ export default function UserPost(){
           {/* {
 
           userPosts.map((userPost, index) => (
-              
+
               <View key={userPost.id ? userPost.id: index}>
               <Text>{userPost.user_id}</Text>
               <Text>{userPost.product_type}</Text>
@@ -187,13 +187,13 @@ export default function UserPost(){
 
           ))
           } */}
-          
+
         </View>
 
 
       </DismissKeyboard>
-      
-    )    
+
+    )
 }
 
 
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     padding: 5
-  },  
+  },
   picker: {
     width:"80%",
     backgroundColor:"#ffffff",

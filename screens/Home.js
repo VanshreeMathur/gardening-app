@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, Button, TouchableOpacity, Linking} from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { ActivityIndicator } from 'react-native';
 import { ProfilePicture } from 'react-native-profile-picture';
 import Amplify, { Auth } from 'aws-amplify';
@@ -14,6 +15,10 @@ export default function Home({ navigation, updateAuthState }){
         navigation.navigate('Stats');
     }
 
+    const pressHandler3 = () => {
+        navigation.navigate('Contact');
+    }
+
     async function signOut(){
       try{
         await Auth.signOut();
@@ -25,6 +30,10 @@ export default function Home({ navigation, updateAuthState }){
       }
     }
 
+    const _handlePressButtonAsync = async () => {
+        let result = await WebBrowser.openBrowserAsync('https://www.nourishproject.ca/contact-us');
+        setResult(result);
+      };
 
     return(
 
@@ -47,8 +56,8 @@ export default function Home({ navigation, updateAuthState }){
 
           {/* Change Profile Picture */}
 
-          <TouchableOpacity style={styles.profilePictureButton}>
-            <Text style={styles.loginText}>Change</Text>
+          <TouchableOpacity style={styles.profilePictureButton} onPress = {_handlePressButtonAsync}>
+            <Text style={styles.loginText}> Contact us! </Text>
           </TouchableOpacity>
 
           {/* Post Harvest Data Button */}
@@ -72,8 +81,8 @@ export default function Home({ navigation, updateAuthState }){
         </View>
 
     )
-
 }
+
 
 const styles = StyleSheet.create({
     container: {

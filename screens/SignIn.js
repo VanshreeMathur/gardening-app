@@ -23,6 +23,7 @@ export default function SignIn({ navigation, updateAuthState }) {
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
         <Text style={styles.title}>Welcome to Nourish! </Text>
+        <Text style={styles.subtitle}> Harvest Data Collection App </Text>
         <AppTextInput
           value={username}
           onChangeText={text => setUsername(text)}
@@ -67,6 +68,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 35,
+    color: 'white',
+    fontWeight: '500',
+    marginVertical: 15
+  },
+  subtitle: {
+    fontSize: 20,
     color: 'white',
     fontWeight: '500',
     marginVertical: 15
