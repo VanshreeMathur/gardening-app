@@ -17,159 +17,10 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import ConfirmSignUp from './screens/ConfirmSignUp';
 import Home from './screens/Home';
+import Harvest from './screens/UserPost.js';
+import Stats from './screens/Stats.js';
 
 Amplify.configure(awsconfig);
-
-const MyTheme = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingTop: 200,
-    width: '100%',
-    backgroundColor: '#29C16C',
-  },
-  section: {
-    flex: 1,
-    width: '100%',
-    padding: 30,
-  },
-  sectionHeader: {
-    width: '100%',
-    marginBottom: 32,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  sectionHeaderText: {
-    color: '#FFF',
-    fontSize: 20,
-    fontWeight: '500',
-  },
-  sectionFooter: {
-    width: '100%',
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 15,
-    marginBottom: 20,
-  },
-  sectionFooterLink: {
-    fontSize: 14,
-    color: '#FFF',
-    alignItems: 'baseline',
-    textAlign: 'center',
-    padding: 8,
-  },
-  navBar: {
-    marginTop: 35,
-    padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  navButton: {
-    marginLeft: 12,
-    borderRadius: 4,
-  },
-  cell: {
-    flex: 1,
-    width: '50%',
-  },
-  errorRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  errorRowText: {
-    marginLeft: 10,
-  },
-  photo: {
-    width: '100%',
-  },
-  album: {
-    width: '100%',
-  },
-  button: {
-    backgroundColor: '#EE7729',
-    alignItems: 'center',
-    padding: 16,
-  },
-  buttonDisabled: {
-    backgroundColor: '#ffbb8f',
-    alignItems: 'center',
-    padding: 16,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  formField: {
-    marginBottom: 22,
-  },
-  input: {
-    padding: 4,
-    borderWidth: 1,
-    borderRadius: 3,
-    borderColor: '#FFF',
-  },
-  inputLabel: {
-    marginBottom: 8,
-    color: '#FFF',
-  },
-  phoneContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  phoneInput: {
-    flex: 2,
-    padding: 16,
-    borderWidth: 1,
-    borderRadius: 3,
-    borderColor: '#C4C4C4',
-  },
-  picker: {
-    flex: 1,
-    height: 44,
-  },
-  pickerItem: {
-    height: 44,
-  },
-});
-
-const signUpConfig = {
-      header: 'Create an Account',
-      hideAllDefaults: true,
-      defaultCountryCode: '1',
-      signUpFields: [
-        {
-          label: 'Username',
-          key: 'username',
-          placeholder: 'John Smith',
-          required: true,
-          displayOrder: 1,
-          type: 'string'
-        },
-        {
-          label: 'Password',
-          key: 'password',
-          placeholder: 'examplepassword123',
-          required: true,
-          displayOrder: 2,
-          type: 'password'
-        },
-        {
-          label: 'Email',
-          key: 'email',
-          placeholder: 'johnsmith@gmail.com',
-          required: true,
-          displayOrder: 3,
-          type: 'string'
-        },
-  ]
-};
 
 const AuthenticationStack = createStackNavigator();
 const AppStack = createStackNavigator();
@@ -194,7 +45,17 @@ const AppNavigator = props => {
     <AppStack.Navigator>
       <AppStack.Screen name="Home">
         {screenProps => (
-          <Home {...screenProps} updateAuthState={props.updateAuthState} />
+          <Home {...screenProps} updateAuthState={props.updateAuthState}/>
+        )}
+      </AppStack.Screen>
+      <AppStack.Screen name="Harvest">
+        {screenProps => (
+          <Harvest {...screenProps} updateAuthState={props.updateAuthState}/>
+        )}
+      </AppStack.Screen>
+      <AppStack.Screen name="Stats">
+        {screenProps => (
+          <Stats {...screenProps} updateAuthState={props.updateAuthState}/>
         )}
       </AppStack.Screen>
     </AppStack.Navigator>
@@ -204,7 +65,7 @@ const AppNavigator = props => {
 const Initializing = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" color="tomato" />
+      <ActivityIndicator size="large" color="#29C16C" />
     </View>
   );
 };
@@ -230,16 +91,19 @@ function App() {
     setUserLoggedIn(isUserLoggedIn);
   }
 
+//&& <Navigator />
+
   return (
     <NavigationContainer>
         {isUserLoggedIn === 'initializing' && <Initializing />}
         {isUserLoggedIn === 'loggedIn' && (
-          <AppNavigator updateAuthState={updateAuthState}/> && <Navigator />
+          <AppNavigator updateAuthState={updateAuthState}/>
         )}
         {isUserLoggedIn === 'loggedOut' && (
           <AuthenticationNavigator updateAuthState={updateAuthState} />
         )}
       </NavigationContainer>
+
   );
 }
 // wrap the App component as shown below

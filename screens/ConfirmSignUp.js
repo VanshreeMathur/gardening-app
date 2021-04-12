@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AppTextInput from '../components/AppTextInput';
@@ -17,6 +17,15 @@ export default function ConfirmSignUp({ navigation }) {
         '❌ Verification code does not match. Please enter a valid verification code.',
         error.code
       );
+      Alert.alert(
+        "Error",
+        "❌ Verification code does not match. Please enter a valid verification code.",
+        [
+          {
+            text: "Try Again!",
+          }
+        ]
+      )
     }
   }
   return (
@@ -53,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center' 
+    justifyContent: 'center'
   },
   title: {
     fontSize: 20,

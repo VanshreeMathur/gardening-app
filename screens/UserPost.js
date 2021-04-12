@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React, { useEffect, useState } from 'react'
 import {
-  View, Text, StyleSheet, TextInput, Button
+  View, Text, StyleSheet, TextInput, Button, TouchableWithoutFeedback, Keyboard, Alert
 } from 'react-native'
 
 import { Amplify, API, graphqlOperation } from 'aws-amplify'
@@ -19,8 +19,14 @@ Amplify.configure(awsconfig)
 
 const initialState = {user_id: 1, product_type: -1, product_size: 0, product_quantity: 0, timeline_start: "", timeline_end: ""};
 
-export default function UserPost(){ 
-  
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+)
+
+export default function UserPost(){
+
   // this.state = {date: Date.now()}
 
   const [formState, setFormState] = useState(initialState);
@@ -48,12 +54,23 @@ export default function UserPost(){
 
   async function addUserPost(){
 
+    Alert.alert(
+      "Done",
+      "Your harvest has been recorded!",
+      [
+        {
+          text: "Okay",
+        }
+      ]
+    )
+
+
     try{
       const userPost = {...formState};
       setUserPosts([...userPosts, userPost]);
       setFormState(initialState);
       await API.graphql(graphqlOperation(createUserPost, {input: userPost}));
-      
+
     } catch (err) {
       // console.log('Error creating post:', err);
     }
@@ -74,16 +91,19 @@ export default function UserPost(){
     }
   ]
 
-  
-  
     return (
-      <View style={styles.container}>
-        <Text style={styles.logo}> My Harvest </Text>
-        
+      <DismissKeyboard>
+
+        <View style={styles.container}>
+          {/* <Text style={styles.logo}> My Harvest </Text> */}
+
+          <Text style = {styles.headings}> Product Type </Text>
+
           <View style={styles.picker}>
             <RNPickerSelect
               onValueChange={(value) => setInput('product_type',value)}
               items={[
+<<<<<<< HEAD
                 { label: 'Tomatoes', value: 1},
                 { label: 'Lettuce', value: 2},
                 { label: 'Kale', value: 3},
@@ -96,72 +116,99 @@ export default function UserPost(){
                 { label: 'Beans', value: 10},
                 { label: 'Garlic', value: 11},
                 { label: 'Beets', value: 12}
+=======
+                { label: 'Tomatoes', value: 0},
+                { label: 'Head of Lettuce', value: 1},
+                { label: 'Kale', value: 2},
+                { label: 'Carrots', value: 3},
+                { label: 'Peppers', value: 4},
+                { label: 'Radishes', value: 5},
+                { label: 'Potatoes', value: 6},
+                { label: 'Squash', value: 7},
+                { label: 'Cucumbers', value: 8},
+                { label: 'Beans', value: 9},
+                { label: 'Garlic', value: 10},
+                { label: 'Beets', value: 11}
+>>>>>>> 6fbe0af4a5153588c93a306449377278519c0c0c
               ]}
               style={customPickerStyles.inputIOS}
             />
           </View>
 
-        <View style={styles.btnBox}>
+          <View style = {styles.inputText}>
+            <Text style = {styles.headings}> Average Product Size </Text>
+          </View>
 
-          <RadioButtonRN
-            data = {buttonData}
-            selectedBtn = {(e) => setInput('product_size', e.value)}
-            style = {styles.newBtn}
-          />
-
-        </View>
-
-        <View style={styles.inputView} >
-        <TextInput
-            onChangeText={val => setInput('product_quantity', val)}
-            style={styles.inputText}
-            value = {formState.product_quantity}
-            placeholder = "Product Quantity"
+          <View style={styles.btnBox}>
+            <RadioButtonRN
+              data = {buttonData}
+              selectedBtn = {(e) => setInput('product_size', e.value)}
+              style = {styles.newBtn}
             />
+
+          </View>
+
+          <View style = {styles.headings}>
+              <Text style = {styles.headings}> Estimated Pieces of Product </Text>
+          </View>
+
+          <View style={styles.inputView} >
+          <TextInput
+              keyboardType = 'numeric'
+              onChangeText={val => setInput('product_quantity', val)}
+              style={styles.inputText}
+              value = {formState.product_quantity}
+              placeholder = "Product Quantity"
+              />
+          </View>
+
+
+          {/* DATE PICKERS HERE */}
+
+            {/* <View style={styles.inputView} >
+              <TextInput
+                  onChangeText={val => setInput('timeline_start', val)}
+                  style={styles.inputText}
+                  value = {formState.timeline_start}
+                  placeholder="Timeline Start"
+                  />
+              </View>
+
+              <View style={styles.inputView} >
+              <TextInput
+                  onChangeText={val => setInput('timeline_end', val)}
+                  style={styles.inputText}
+                  value = {formState.timeline_end}
+                  placeholder="Timeline End"
+                  />
+              </View> */}
+
+          <TouchableOpacity title="Create Post" style= {styles.submit} onPress={addUserPost} >
+            <Text style = {styles.btnText}> Create Post </Text>
+          </TouchableOpacity>
+
+          {/* {
+
+          userPosts.map((userPost, index) => (
+
+              <View key={userPost.id ? userPost.id: index}>
+              <Text>{userPost.user_id}</Text>
+              <Text>{userPost.product_type}</Text>
+              <Text>{userPost.product_size}</Text>
+              <Text>{userPost.product_quantity}</Text>
+              <Text>{userPost.timeline_start}</Text>
+              <Text>{userPost.timeline_end}</Text>
+              </View>
+
+          ))
+          } */}
+
         </View>
-          
 
-        {/* DATE PICKERS HERE */}
 
-        <View style={styles.inputView} >
-            <TextInput
-                onChangeText={val => setInput('timeline_start', val)}
-                style={styles.inputText}
-                value = {formState.timeline_start}
-                placeholder="Timeline Start"
-                />
-            </View>
+      </DismissKeyboard>
 
-            <View style={styles.inputView} >
-            <TextInput
-                onChangeText={val => setInput('timeline_end', val)}
-                style={styles.inputText}
-                value = {formState.timeline_end}
-                placeholder="Timeline End"
-                />
-            </View>
-
-        <TouchableOpacity title="Create Post" style= {styles.submit} onPress={addUserPost} >
-          <Text style = {styles.btnText}> Create Post </Text>
-        </TouchableOpacity>
-        
-        {
-
-        userPosts.map((userPost, index) => (
-            
-            <View key={userPost.id ? userPost.id: index}>
-            <Text>{userPost.user_id}</Text>
-            <Text>{userPost.product_type}</Text>
-            <Text>{userPost.product_size}</Text>
-            <Text>{userPost.product_quantity}</Text>
-            <Text>{userPost.timeline_start}</Text>
-            <Text>{userPost.timeline_end}</Text>
-            </View>
-
-        ))
-        }
-      </View>
-    )    
+    )
 }
 
 
@@ -188,12 +235,18 @@ const customPickerStyles = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
+  headings:{
+    color: 'white',
+    fontWeight: 'bold',
+    padding: 5
+  },
   picker: {
     width:"80%",
     backgroundColor:"#ffffff",
     borderRadius:15,
     height:50,
-    marginBottom:20,
+    marginBottom: 10,
+    marginTop: 10,
     justifyContent:"center",
     padding:20,
   },
@@ -242,6 +295,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#29A86B',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: 250
   },
   logo:{
     // fontWeight:"bold",
@@ -261,6 +315,7 @@ const styles = StyleSheet.create({
     borderRadius:15,
     height:50,
     marginBottom:20,
+    marginTop: 5,
     justifyContent:"center",
     padding:20
   },
