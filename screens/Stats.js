@@ -376,21 +376,6 @@ export default function Stats({navigation}){
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
