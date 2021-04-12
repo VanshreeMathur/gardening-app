@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 //import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text,TouchableOpacity, Button, Alert } from 'react-native';
+import { StyleSheet, View, Text,TouchableOpacity, Button, Alert, SafeAreaView, ScrollView } from 'react-native';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis} from "victory-native";
 import * as queries from '../graphql/queries';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
@@ -9,88 +9,94 @@ import UserPost from './UserPost';
 import RNPickerSelect from 'react-native-picker-select';
 Amplify.configure(awsconfig)
 
+var pickerData = [""]; // array that will contain each value selected
+var statsData = [0]; // array that will contain each value selected
 
+//****************************************************************************************************************//
+// NOTES
+// Still need to make a way to choose what style of data to pick, user data vs peterborough data
+//ideas ( drop down picker for each option, when you click submit the filters go through an if statement where the data from the picker dictates what style of filters we use)
+// still need to figure out what curr user id is so they only see their personal stats.
+
+
+
+
+
+//****************************************************************************************************************//
+// Graphs for Specific User Data                                                                                  //
+// Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start                                    //
+//****************************************************************************************************************//
 
 //========================================================================================================
-//DROP DOWN PICKER  (when button is clicked in the stats function it submits the user data from this list to the graph)
-
-var pickerData = [""]; // array that will contain each value selected 
-pickerDataElement = 0; // counter for elements in array 'pickerData' as well as allows us to populate array
-export const Dropdown = () => {
-  return (
-      <RNPickerSelect
-          onValueChange={(value) => (pickerData[pickerDataElement] = value), pickerDataElement += 1/*console.log(value)*/} // sets value in array and goes to next element in array
-          items={[
-              { label: 'Tomato', value: 'tomato' },
-              { label: 'Lettuce', value: 'lettuce' },
-              { label: 'Kale', value: 'kale' },
-              { label: 'Carrot', value: 'carrot' },
-              { label: 'Peppers', value: 'peppers' },
-              { label: 'Radish', value: 'radish' },
-              { label: 'Potato', value: 'potato' },
-              { label: 'Squash', value: 'squash' },
-              { label: 'Cucumbers', value: 'cucumber' },
-              { label: 'Bean', value: 'bean' },
-              { label: 'Garlic', value: 'garlic' },
-              { label: 'Beet', value: 'beet' },
-          ]}
-      />
-  );
-};
-//========================================================================================================
-
-    // Simple query
-//const allTodos = await API.graphql(graphqlOperation{ query: queries.listTodos });
-//console.log(allTodos);  result: { "data": { "listTodos": { "items": [] } } } 
-/*
-// Query using a parameter
-async function productTypeFilter(){
-    const productFilter = await API.graphql(graphqlOperation(queries.getTodo, { product_type: 'Cucumber' }));
-    console.log(oneTodo);
-}
-
-
-
-
-//console.log(oneTodo);
-
-//says client doesnt work
-client.query({
-    query: gql(listTodos)
-  }).then(({ data: { listTodos } }) => {
-    console.log(listTodos.items);
-  });
-
-*/
-// Create an arrays for the filtered data
-
-
-
-
-//=========================================================
-//create a filter for our types of searches
-// each graph will use the x filter to guide what type of filter the user wants to see, while the y filter is the comparable. in this case its quantity.
-//=========================================================
-//This filters our search based on type of product // should filter out any product that is not a tomato or cucumber in this example
-async function ProductXFilter(){
-    let xfilter = {
-      product_quantity: {ge: 0}
-             
+//Graph 1 type vs quantity
+const usergOneFilter = async function ProductYFilter(){
+  try{
+    let yfilter = {
+      and: [{ product_type: {eq:pickerData[0]}},
+      { user_id: {eq:0}}, // THIS NEEDS TO BE CURRENT USER ID NOT 0
+    { product_quantity: {ge: 0} }]
+       // everything should be available with this filter aka even vegetables you havent grown.
+       // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
+      
+  }
+  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
+  return filterYData;
+  } catch (err) { console.log('Error creating filter.')};
+     
+  }
+  var usergraphOneData = [usergOneFilter.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
+  
+  //========================================================================================================
+  //Graph 2 type vs size
+  const usergTwoFilter = async function ProductYFilter(){
+    try{
+      let yfilter = {
+        and: [{ product_type: {eq:pickerData[0]}},
+        { user_id: {eq:0}}, // THIS NEEDS TO BE CURRENT USER ID NOT 0
+      { product_size: {ge: 0} }]
+         // everything should be available with this filter aka even vegetables you havent grown.
+         // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
         
-    };
-   filterXData = await API.graphql({ query: listProducts, variables: {filter: xfilter}}); // gets a list of products with the x filter aka only a list of userposts with cucumbers.
-   console.log(filterXData);
-}
+    }
+    const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
+    return filterYData;
+    } catch (err) { console.log('Error creating filter.')};
+       
+    }
+    var usergraphTwoData = [usergTwoFilter.product_size];
+  
+  //========================================================================================================
+  //Graph 3 type vs timeline start
+  const usergThreeFilter = async function ProductYFilter(){
+    try{
+      let yfilter = {
+        and: [{ product_type: {eq:pickerData[0]}},
+        { user_id: {eq:0}}, // THIS NEEDS TO BE CURRENT USER ID NOT 0
+      { timeline_start: {ge: 0} }]
+         // everything should be available with this filter aka even vegetables you havent grown.
+         // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
+        
+    }
+    const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
+    return filterYData;
+    } catch (err) { console.log('Error creating filter.')};
+       
+    }
+    var usergraphThreeData = [usergThreeFilter.timeline_start]; // needs to store array data in 12 elements, 0 being january and storing the quantity, 11 being december storing the quantity
 
 
 
 
+//****************************************************************************************************************//
+// Graphs for Peterborough Data                                                                                   //
+// Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start                                    //
+//****************************************************************************************************************//
 
 
 
 //========================================================================================================
-// pretty sure this works
-const pleaseWork = async function ProductYFilter(){
+//Graph 1 type vs quantity
+const gOneFilter = async function ProductYFilter(){
 try{
   let yfilter = {
     and: [{ product_type: {eq:pickerData[0]}},
@@ -99,74 +105,72 @@ try{
      // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
     
 }
-const filterYData = await API.graphql({ query: listProducts, variables: {filter: yfilter}});
+const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
 return filterYData;
 } catch (err) { console.log('Error creating filter.')};
    
 }
-//========================================================================================================
+var graphOneData = [gOneFilter.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
 
-
 //========================================================================================================
-//TESTING OUT FILTERING PROPERTIES
-const test = async function testingMultipleFilters(){
-  //takes array and creates a filter for each element in array
+//Graph 2 type vs size
+const gTwoFilter = async function ProductYFilter(){
   try{
-    let testFilter = {
+    let yfilter = {
       and: [{ product_type: {eq:pickerData[0]}},
-    { product_quantity: {ge: 0} }]
+    { product_size: {ge: 0} }]
        // everything should be available with this filter aka even vegetables you havent grown.
        // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
       
   }
-  const filterYData = await API.graphql({ query: listProducts, variables: {filter: yfilter}});
+  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
   return filterYData;
   } catch (err) { console.log('Error creating filter.')};
      
   }
+  var graphTwoData = [gTwoFilter.product_size];
+
+//========================================================================================================
+//Graph 3 type vs timeline start
+const gThreeFilter = async function ProductYFilter(){
+  try{
+    let yfilter = {
+      and: [{ product_type: {eq:pickerData[0]}},
+    { timeline_start: {ge: 0}}]      
+  }
+  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
+  return filterYData;
+  } catch (err) { console.log('Error creating filter.')};
+     
+  }
+  var graphThreeData = [gThreeFilter.timeline_start]; // needs to store array data in 12 elements, 0 being january and storing the quantity, 11 being december storing the quantity
 
 
-//=========================================================
-//Now that the filters are created, this array is where we store the data from the query we actually want to put into the graph
-// FOR GRAPH 1
-//=========================================================
 
-var graphOneData = [pleaseWork.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
-console.log("pickerData[0]");
-console.log("Quantity of Cucumbers is:", pickerData[0].product_quantity); // produces response "undefined" currently, most likely because user posts dont work rn so no data in database
+//****************************************************************/
+// Graph data creation for Specific User  Stats
+const usergraphOneYData = [ // graph one data used for type vs quantity
 
+  {ProductType: 1, ProductQuantity: usergraphOneData},
+ 
 
+];
 
+const usergraphTwoYData = [ // graph two data for type vs size 
 
-
-
-//console.log(filterYData);
-   // const data = filteredData;
-
-// filter needs to 
-// 1. select all product type user wants to see, 2. show the product type vs time or vs quantity etc 
+{ProductType: 1, ProductSize: usergraphTwoData},
 
 
-//const data = UserPost.map((userPost, index) => (
-                
-               
-            
-                //{userPost: product_type, userPost: product_quantity}
-               
-               
-             
+];
 
-           // ))
-            
+const usergraphThreeYData = [ // graph two data for type vs timeline start 
+
+{TimelineStart: 1, ProductQuantity: usergraphThreeData},
 
 
-//const data = [listUserPosts(items(filter))];
-
-
-//=========================
-// NOTE: try to make it so we make one graph and one graph data, which is taken from the drop down list and filtered.
-
-
+];
+//****************************************************************/
+// Graph data creation for Peterborough Stats
 const graphOneYData = [ // graph one data used for type vs quantity
 
     {ProductType: 1, ProductQuantity: graphOneData},
@@ -176,31 +180,34 @@ const graphOneYData = [ // graph one data used for type vs quantity
 
 const graphTwoYData = [ // graph two data for type vs size 
 
-  {ProductType: 1, ProductQuantity: graphTwoYData},
-  {ProductType: 2, ProductQuantity: 55},
-  {ProductType: 3, ProductQuantity: 200},
-  {ProductType: 4, ProductQuantity: 12}
+  {ProductType: 1, ProductSize: graphTwoData},
+
 
 ];
 
-const graphThreeYData = [ // graph two data for type vs size 
+const graphThreeYData = [ // graph two data for type vs timeline start 
 
-  {ProductType: 1, ProductQuantity: graphThreeYData},
-  {ProductType: 2, ProductQuantity: 55},
-  {ProductType: 3, ProductQuantity: 200},
-  {ProductType: 4, ProductQuantity: 12}
+  {TimelineStart: 1, ProductQuantity: graphThreeData},
+  //{TimelineStart: 2, ProductQuantity: graphThreeData[1]},
+  //{TimelineStart: 3, ProductQuantity: graphThreeData[2]},
+  //{TimelineStart: 4, ProductQuantity: graphThreeData[3]},
+  //{TimelineStart: 5, ProductQuantity: graphThreeData[4]},
+  //{TimelineStart: 6, ProductQuantity: graphThreeData[5]},
+  //{TimelineStart: 7, ProductQuantity: graphThreeData[6]},
+  //{TimelineStart: 8, ProductQuantity: graphThreeData[7]},
+  //{TimelineStart: 9, ProductQuantity: graphThreeData[8]},
+  //{TimelineStart: 10, ProductQuantity: graphThreeData[9]},
+  //{TimelineStart: 11, ProductQuantity: graphThreeData[10]},
+  //{TimelineStart: 12, ProductQuantity: graphThreeData[11]},
+  
 
 ];
 
-// needs to return the drop down list and button first regardless, then do an if statement to return a specific graph based on the user data taken from the drop down list
-// the action of pressing the button submits the data from the drop down list. 
-
-// ****************
-// doesnt work rn because the button and list need to be within a return, but the if else statement needs to be outside of a return, but the code isnt reached if i use a return before
-// the if else statement
-//******************** 
-
-
+//****************************************************************************************************************//
+// Stats Function ( where we see stuff on screen)                                                                 //              
+// Shows submit button (submits contents of ddPicker), drop down picker (list of product)                         //
+// Shows 3 graphs, each using data from the user selection on the ddpicker.                                       //
+//****************************************************************************************************************//
 export default function Stats({navigation}){
 
   
@@ -219,10 +226,28 @@ export default function Stats({navigation}){
 //==================================================
 // BUTTON FOR SUBMITTING USER DROP DOWN PICKER DATA
 //==================================================
-<View style={styles.container}>
+<SafeAreaView style={styles.container}>
+  <ScrollView style={styles.ScrollView}>
+
+
+
 <TouchableOpacity style={styles.profileButtons} onPress = {updateGraphHandler}>
             <Text style={styles.loginText}>Submit</Text>
           </TouchableOpacity>
+
+          <View style={styles.picker}>
+      <RNPickerSelect
+      pickerProps={{
+        title: 'X Axis Options'
+      }}
+        onValueChange={(value) => (statsData[0] = value)}
+        items={[
+          { label: 'Your Stats', value: 1},
+          { label: 'Peterborough Stats', value: 2},
+        ]}
+        //style={customPickerStyles.inputIOS}
+      />
+    </View>
         
 
 <View style={styles.picker}>
@@ -232,30 +257,29 @@ export default function Stats({navigation}){
       }}
         onValueChange={(value) => (pickerData[0] = value)}
         items={[
-          { label: 'Tomatoes', value: 'Tomatoes'},
-          { label: 'Lettuce', value: 'Lettuce'},
-          { label: 'Kale', value: 'Kale'},
-          { label: 'Carrots', value: 'Carrots'},
-          { label: 'Peppers', value: 'Peppers'},
-          { label: 'Radishes', value: 'Radishes'},
-          { label: 'Potatoes', value: 'Potatoes'},
-          { label: 'Squash', value: 'Squash'},
-          { label: 'Cucumbers', value: 'Cucumbers'},
-          { label: 'Beans', value: 'Beans'},
-          { label: 'Garlic', value:'Garlic'},
-          { label: 'Beets', value: 'Beets'}
+          { label: 'Tomatoes', value: 1},
+          { label: 'Lettuce', value: 2},
+          { label: 'Kale', value: 3},
+          { label: 'Carrots', value: 4},
+          { label: 'Peppers', value: 5},
+          { label: 'Radishes', value: 6},
+          { label: 'Potatoes', value: 7},
+          { label: 'Squash', value: 8},
+          { label: 'Cucumbers', value: 9},
+          { label: 'Beans', value: 10},
+          { label: 'Garlic', value: 11},
+          { label: 'Beets', value: 12}
         ]}
         //style={customPickerStyles.inputIOS}
       />
     </View>
 
-     { // if else statement to decide what graph to use based on what graph style is selected by user...
-
-//============================================================================================================================
-//GRAPH STYLE 1 
-// Y axis is Product_Quantity
-//This graph is used if user selects product_type vs product_quantity
-}
+    { 
+      //============================================================================================================================
+      //GRAPH STYLE 1 
+      // Y axis is Product_Quantity
+      //This graph is used if user selects product_type vs product_quantity
+    }
       <VictoryChart
       // adding the material theme provided with Victory
       theme={VictoryTheme.material}
@@ -265,7 +289,7 @@ export default function Stats({navigation}){
       label="Product Type"
       style={{axisLabel:{padding: 30}}}
         tickValues={[1]}
-        tickFormat={[pickerData[0]]}
+        tickFormat={[""]}
       />
       <VictoryAxis
         dependentAxis
@@ -280,20 +304,14 @@ export default function Stats({navigation}){
       />
     </VictoryChart>    
 
-    </View>
-    )
-  }
-/*
-  else if()// product type vs product size  (if user data == this type of graph)
-  {
-    return(
-            //============================================================================================================================
-      //GRAPH STYLE 2 
-      // Y axis is Product_size
-      // this graph is used if the user selects product_type vs product_size
+    { 
+      //============================================================================================================================
+      //GRAPH 2
+      // Y axis is Product_Size
+      //This graph is used if user selects product_type vs product_size
+    }
 
-
-      <VictoryChart
+    <VictoryChart
       // adding the material theme provided with Victory
       theme={VictoryTheme.material}
       domainPadding={{x: 40}}
@@ -301,8 +319,8 @@ export default function Stats({navigation}){
       <VictoryAxis
       label="Product Type"
       style={{axisLabel:{padding: 30}}}
-        tickValues={[1, 2, 3, 4]}
-        tickFormat={["Vegetable 1", "Vegetable 2", "Vegetable 3", "Vegetable 4"]}
+        tickValues={[1]}
+        tickFormat={[""]}
       />
       <VictoryAxis
         dependentAxis
@@ -311,48 +329,51 @@ export default function Stats({navigation}){
         tickFormat={(x) => (`${x / 1}`)} // determines the range on our y axis (change 1000 to change the numbers shown on the y axis)
       />
       <VictoryBar
-        data={graphTwoData}
+        data={graphTwoYData}
         x="ProductType"
-        y="ProductQuantity"
+        y="ProductSize"
       />
     </VictoryChart>    
-    )
-  }
 
-  else if() // product type vs timeline start (if user data == this type of graph)
-  {
-    return(
-          //============================================================================================================================
-      //GRAPH STYLE 3
-      // this graph is used if the user selects product_type vs timeline_start
-
-
-      <VictoryChart
+    { 
+      //============================================================================================================================
+      //GRAPH 3
+      // Y axis is timeline_start
+      //This graph is used if user selects product_quantity vs timelinestart of a specific product type
+      // displays max 12 bars (12 months) xaxis is months yaxis is quantity, drop down list determines the product type
+    }
+   
+   <VictoryChart
       // adding the material theme provided with Victory
       theme={VictoryTheme.material}
       domainPadding={{x: 40}}
+      //scale={{x: ""}}
     >
       <VictoryAxis
-      label="Product Type"
+      label="Timeline Start"
       style={{axisLabel:{padding: 30}}}
-        tickValues={[1, 2, 3, 4]}
-        tickFormat={["Vegetable 1", "Vegetable 2", "Vegetable 3", "Vegetable 4"]}
+        tickValues={[1,2,3,4,5,6,7,8,9,10,11,12]}
+        tickFormat={["J","F","M","A","M","J","J","A","S","O","N","D"]}
       />
       <VictoryAxis
         dependentAxis
-        label="Timeline Start"
+        label="Product Quantity"
         style={{axisLabel:{padding: 40}}} 
         tickFormat={(x) => (`${x / 1}`)} // determines the range on our y axis (change 1000 to change the numbers shown on the y axis)
       />
       <VictoryBar
-        data={graphThreeData}
-        x="ProductType"
+        data={graphThreeYData}
+        x="TimelineStart"
         y="ProductQuantity"
       />
     </VictoryChart>    
+    
+    </ScrollView>
+    </SafeAreaView>
+    
     )
   }
-    */
+
 }
 
 
@@ -376,6 +397,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#f5fcff"
+    },
+    ScrollView:{
+          paddingHorizontal: 20
     },
     loginBtn:{
       width:"50%",
