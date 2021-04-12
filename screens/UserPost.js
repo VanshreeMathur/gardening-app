@@ -17,7 +17,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 Amplify.configure(awsconfig)
 
-const initialState = {user_id: 1, product_type: -1, product_size: 0, product_quantity: 0, timeline_start: "", timeline_end: ""};
+const initialState = {user_id: 1, product_type: -1, product_size: -1, product_quantity: -1, timeline_start: "", timeline_end: ""};
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
@@ -53,6 +53,15 @@ export default function UserPost(){
   }
 
   async function addUserPost(){
+    try{
+      const userPost = {...formState};
+      setUserPosts([...userPosts, userPost]);
+      setFormState(initialState);
+      await API.graphql(graphqlOperation(createUserPost, {input: userPost}));
+
+    } catch (err) {
+      // console.log('Error creating post:', err);
+    }
 
     Alert.alert(
       "Done",
@@ -63,18 +72,49 @@ export default function UserPost(){
         }
       ]
     )
+  }
 
+  function validate(){
 
-    try{
-      const userPost = {...formState};
-      setUserPosts([...userPosts, userPost]);
-      setFormState(initialState);
-      await API.graphql(graphqlOperation(createUserPost, {input: userPost}));
-
-    } catch (err) {
-      // console.log('Error creating post:', err);
+    if(formState.product_type == -1){
+      Alert.alert(
+        "Error",
+        "Please select a product type.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    else if(formState.product_size == -1){
+      Alert.alert(
+        "Error",
+        "Please select a product size.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    else if(!Number.isInteger(parseFloat(formState.product_quantity)) || formState.product_quantity < 0){
+      Alert.alert(
+        "Error",
+        "Invalid product quantity.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    else{
+      addUserPost();
     }
   }
+
+
 
   const buttonData = [
     {
@@ -168,7 +208,7 @@ export default function UserPost(){
                   />
               </View> */}
 
-          <TouchableOpacity title="Create Post" style= {styles.submit} onPress={addUserPost} >
+          <TouchableOpacity title="Create Post" style= {styles.submit} onPress={validate}>
             <Text style = {styles.btnText}> Create Post </Text>
           </TouchableOpacity>
 
