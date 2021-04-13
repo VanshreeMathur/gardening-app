@@ -17,7 +17,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 Amplify.configure(awsconfig)
 
-const initialState = {user_id: 1, product_type: -1, product_size: 0, product_quantity: 0, timeline_start: "", timeline_end: ""};
+const initialState = {user_id: 1, product_type: -1, product_size: -1, product_quantity: -1, timeline_start: "", timeline_end: ""};
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
@@ -53,6 +53,15 @@ export default function UserPost(){
   }
 
   async function addUserPost(){
+    try{
+      const userPost = {...formState};
+      setUserPosts([...userPosts, userPost]);
+      setFormState(initialState);
+      await API.graphql(graphqlOperation(createUserPost, {input: userPost}));
+
+    } catch (err) {
+      // console.log('Error creating post:', err);
+    }
 
     Alert.alert(
       "Done",
@@ -63,18 +72,49 @@ export default function UserPost(){
         }
       ]
     )
+  }
 
+  function validate(){
 
-    try{
-      const userPost = {...formState};
-      setUserPosts([...userPosts, userPost]);
-      setFormState(initialState);
-      await API.graphql(graphqlOperation(createUserPost, {input: userPost}));
-
-    } catch (err) {
-      // console.log('Error creating post:', err);
+    if(formState.product_type == -1){
+      Alert.alert(
+        "Error",
+        "Please select a product type.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    else if(formState.product_size == -1){
+      Alert.alert(
+        "Error",
+        "Please select a product size.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    else if(!Number.isInteger(parseFloat(formState.product_quantity)) || formState.product_quantity < 0){
+      Alert.alert(
+        "Error",
+        "Invalid product quantity.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    else{
+      addUserPost();
     }
   }
+
+
 
   const buttonData = [
     {
@@ -103,6 +143,7 @@ export default function UserPost(){
             <RNPickerSelect
               onValueChange={(value) => setInput('product_type',value)}
               items={[
+<<<<<<< HEAD
                 { label: 'Tomatoes', value: 0},
                 { label: 'Head of Lettuce', value: 1},
                 { label: 'Kale', value: 2},
@@ -115,6 +156,20 @@ export default function UserPost(){
                 { label: 'Beans', value: 9},
                 { label: 'Garlic', value: 10},
                 { label: 'Beets', value: 11}
+=======
+                { label: 'Tomatoes', value: 1},
+                { label: 'Lettuce', value: 2},
+                { label: 'Kale', value: 3},
+                { label: 'Carrots', value: 4},
+                { label: 'Peppers', value: 5},
+                { label: 'Radishes', value: 6},
+                { label: 'Potatoes', value: 7},
+                { label: 'Squash', value: 8},
+                { label: 'Cucumbers', value: 9},
+                { label: 'Beans', value: 10},
+                { label: 'Garlic', value: 11},
+                { label: 'Beets', value: 12}
+>>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
               ]}
               style={customPickerStyles.inputIOS}
             />
@@ -168,7 +223,7 @@ export default function UserPost(){
                   />
               </View> */}
 
-          <TouchableOpacity title="Create Post" style= {styles.submit} onPress={addUserPost} >
+          <TouchableOpacity title="Create Post" style= {styles.submit} onPress={validate}>
             <Text style = {styles.btnText}> Create Post </Text>
           </TouchableOpacity>
 
