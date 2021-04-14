@@ -21,11 +21,8 @@ var statsData = [0]; // array that will contain each value selected
 // ideas ( drop down picker for each option, when you click submit the filters go through an if statement where the data from the picker dictates what style of filters we use)
 // still need to figure out what curr user id is so they only see their personal stats.
 
-<<<<<<< HEAD
   
 
-=======
->>>>>>> 7da64bee03979cf231b670a078b187985ec1f825
 //****************************************************************************************************************//
 // Stats Function ( where we see stuff on screen)                                                                 //
 // Shows submit button (submits contents of ddPicker), drop down picker (list of product)                         //
@@ -40,7 +37,6 @@ export default function Stats({navigation}){
     ProductYFilter()
   }, [])
 
-<<<<<<< HEAD
 
 
 
@@ -50,8 +46,6 @@ export default function Stats({navigation}){
 
 
 
-=======
->>>>>>> 7da64bee03979cf231b670a078b187985ec1f825
 //****************************************************************************************************************//
 //TESTING
 const [userPosts, setUserPosts] = useState([]);
@@ -82,28 +76,18 @@ async function fetchUserName(){
   try{
 /*
     Auth.currentUserInfo()
-<<<<<<< HEAD
     .then(data => console.log(data.id) );*/
 
     const { username } = await Auth.currentAuthenticatedUser();
     const currUserName = username;
     setCurrUserName(currUserName);
 
-=======
-    .then(data => console.log(data) );
-//const currUserName = currUserNameData;
-;
-console.log(currUserName(data));
->>>>>>> 7da64bee03979cf231b670a078b187985ec1f825
 
   } catch (err) { {/*console.log('Error fetching posts.') */}};
 
 }
-<<<<<<< HEAD
 console.log(currUserName);
 
-=======
->>>>>>> 7da64bee03979cf231b670a078b187985ec1f825
 
   // updates graph using drop down lists data
   const updateGraphHandler = () => {
@@ -155,11 +139,7 @@ const graphTwoYData = [ // graph two data for type vs size
 
 ];
 
-<<<<<<< HEAD
 const graphThreeYData = [ // graph two data for type vs timeline start 
-=======
-const graphThreeYData = [ // graph two data for type vs timeline start
->>>>>>> 7da64bee03979cf231b670a078b187985ec1f825
 {TimelineStart: 1, ProductQuantity: 2},
 //{TimelineStart: 1, ProductQuantity: filterTimeData},
 {TimelineStart: 2, ProductQuantity:4},
@@ -173,11 +153,8 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 {TimelineStart: 10, ProductQuantity: 99},
 {TimelineStart: 11, ProductQuantity: 14},
 {TimelineStart: 12, ProductQuantity: 300},
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 7da64bee03979cf231b670a078b187985ec1f825
 ];
 
 
