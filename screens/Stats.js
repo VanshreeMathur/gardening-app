@@ -34,16 +34,11 @@ export default function Stats({navigation}){
   const [pickerResult, setPickerResult] = useState('Cucumbers'); // sets initial state of graph to cucumbers
 
   useEffect(() => {
-    ProductYFilter()
+    ProductYFilter();
+    return () => {
+      setState({}); // Removes unmounted component error
+    };
   }, [])
-
-
-
-
-
-
-
-
 
 
 //****************************************************************************************************************//
@@ -65,19 +60,6 @@ async function fetchUserPosts(){
   } catch (err) { {/*console.log('Error fetching posts.') */}};
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   // updates graph using drop down lists data
@@ -118,7 +100,7 @@ async function ProductYFilter(){
 // Graph data creation for all stats, filters are named the same but the result of the ddpicker decides what type of filter gets used
 const graphOneYData = [ // graph one data used for type vs quantity
 
-  {ProductType: 1, ProductQuantity: userPosts.product_quantity/*filterQuantityData*/},
+  {ProductType: 1, ProductQuantity: userPosts/*filterQuantityData*/},
 
 
 ];
