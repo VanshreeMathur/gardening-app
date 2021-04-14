@@ -209,15 +209,15 @@ const showDatepicker = () => {
               placeholder = "Product Quantity"
               />
           </View>
-        
+
     { //============================================================================================================================
       // year picker for the graph
       // button doesnt do anything... but the way this is set up atm the datetime picker doesnt work without the button.
     }
     <View>
-    <View>
+    <View style={styles.dateButton}>
         <Button onPress={showDatepicker} title="Pick Date!" />
-    </View>     
+    </View>
       {show && (
         <DateTimePicker
           minimumDate={new Date(2021, 0, 1)}
@@ -318,6 +318,10 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     padding:20,
   },
+  dateButton: {
+    marginBottom:20,
+    color:"white",
+  },
   btnText: {
     color: 'white'
   },
@@ -363,7 +367,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#29A86B',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 250
+    paddingBottom: 200
   },
   logo:{
     // fontWeight:"bold",
