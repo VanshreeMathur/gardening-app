@@ -34,10 +34,7 @@ export default function Stats({navigation}){
   const [pickerResult, setPickerResult] = useState('Cucumbers'); // sets initial state of graph to cucumbers
 
   useEffect(() => {
-    ProductYFilter();
-    return () => {
-      setState({}); // Removes unmounted component error
-    };
+    ProductYFilter()
   }, [])
 
 
