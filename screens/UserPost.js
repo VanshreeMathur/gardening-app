@@ -143,20 +143,6 @@ export default function UserPost(){
             <RNPickerSelect
               onValueChange={(value) => setInput('product_type',value)}
               items={[
-<<<<<<< HEAD
-                { label: 'Tomatoes', value: 0},
-                { label: 'Head of Lettuce', value: 1},
-                { label: 'Kale', value: 2},
-                { label: 'Carrots', value: 3},
-                { label: 'Peppers', value: 4},
-                { label: 'Radishes', value: 5},
-                { label: 'Potatoes', value: 6},
-                { label: 'Squash', value: 7},
-                { label: 'Cucumbers', value: 8},
-                { label: 'Beans', value: 9},
-                { label: 'Garlic', value: 10},
-                { label: 'Beets', value: 11}
-=======
                 { label: 'Tomatoes', value: 1},
                 { label: 'Lettuce', value: 2},
                 { label: 'Kale', value: 3},
@@ -169,7 +155,6 @@ export default function UserPost(){
                 { label: 'Beans', value: 10},
                 { label: 'Garlic', value: 11},
                 { label: 'Beets', value: 12}
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
               ]}
               style={customPickerStyles.inputIOS}
             />
