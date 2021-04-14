@@ -76,7 +76,7 @@ export default function UserPost(){
 
   function validate(){
 
-    if(formState.product_type == -1){
+    if(formState.product_type == -1 || formState.product_type == null){
       Alert.alert(
         "Error",
         "Please select a product type.",
@@ -102,6 +102,17 @@ export default function UserPost(){
       Alert.alert(
         "Error",
         "Invalid product quantity.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    else if(formState.timeline_start == "" || formState.timeline_start == null){
+      Alert.alert(
+        "Error",
+        "Please select a harvest month.",
         [
           {
             text: "Okay",
@@ -143,18 +154,18 @@ export default function UserPost(){
             <RNPickerSelect
               onValueChange={(value) => setInput('product_type',value)}
               items={[
-                { label: 'Tomatoes', value: 1},
-                { label: 'Lettuce', value: 2},
-                { label: 'Kale', value: 3},
-                { label: 'Carrots', value: 4},
-                { label: 'Peppers', value: 5},
-                { label: 'Radishes', value: 6},
-                { label: 'Potatoes', value: 7},
-                { label: 'Squash', value: 8},
-                { label: 'Cucumbers', value: 9},
-                { label: 'Beans', value: 10},
-                { label: 'Garlic', value: 11},
-                { label: 'Beets', value: 12}
+                { label: 'Tomatoes', value: 0},
+                { label: 'Head of Lettuce', value: 1},
+                { label: 'Kale', value: 2},
+                { label: 'Carrots', value: 3},
+                { label: 'Peppers', value: 4},
+                { label: 'Radishes', value: 5},
+                { label: 'Potatoes', value: 6},
+                { label: 'Squash', value: 7},
+                { label: 'Cucumbers', value: 8},
+                { label: 'Beans', value: 9},
+                { label: 'Garlic', value: 10},
+                { label: 'Beets', value: 11}
               ]}
               style={customPickerStyles.inputIOS}
             />
@@ -187,26 +198,31 @@ export default function UserPost(){
               />
           </View>
 
+          {/* month picker */}
 
-          {/* DATE PICKERS HERE */}
+          <Text style = {styles.headings}> Harvest Month </Text>
 
-            {/* <View style={styles.inputView} >
-              <TextInput
-                  onChangeText={val => setInput('timeline_start', val)}
-                  style={styles.inputText}
-                  value = {formState.timeline_start}
-                  placeholder="Timeline Start"
-                  />
-              </View>
+          <View style={styles.picker}>
+            <RNPickerSelect
+              onValueChange={(value) => setInput('timeline_start',value)}
+              items={[
+                { label: 'January', value: 0},
+                { label: 'February', value: 1},
+                { label: 'March', value: 2},
+                { label: 'April', value: 3},
+                { label: 'May', value: 4},
+                { label: 'June', value: 5},
+                { label: 'July', value: 6},
+                { label: 'August', value: 7},
+                { label: 'September', value: 8},
+                { label: 'October', value: 9},
+                { label: 'November', value: 10},
+                { label: 'December', value: 11}
+              ]}
+              style={customPickerStyles.inputIOS}
+            />
+          </View>
 
-              <View style={styles.inputView} >
-              <TextInput
-                  onChangeText={val => setInput('timeline_end', val)}
-                  style={styles.inputText}
-                  value = {formState.timeline_end}
-                  placeholder="Timeline End"
-                  />
-              </View> */}
 
           <TouchableOpacity title="Create Post" style= {styles.submit} onPress={validate}>
             <Text style = {styles.btnText}> Create Post </Text>
@@ -290,6 +306,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#444',
     padding: 15,
     borderRadius: 15,
+    marginTop: 15
   },
   date: {
     backgroundColor: '#EE7729',
@@ -320,7 +337,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#29A86B',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 250
+    paddingBottom: 150
   },
   logo:{
     // fontWeight:"bold",
