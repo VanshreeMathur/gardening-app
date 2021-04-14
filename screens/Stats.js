@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 //import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text,TouchableOpacity, Button, Alert, SafeAreaView, ScrollView } from 'react-native';
-import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis} from "victory-native";
+import { StyleSheet, View, Text,TouchableOpacity, Button, Alert, SafeAreaView, ScrollView} from 'react-native';
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel} from "victory-native";
 import * as queries from '../graphql/queries';
 import { listUserPosts } from '../graphql/queries'
 import { Amplify, API, Auth, graphqlOperation } from 'aws-amplify';
 import awsconfig from '../aws-exports'
 import UserPost from './UserPost';
 import RNPickerSelect from 'react-native-picker-select';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { mayInitWithUrlAsync } from 'expo-web-browser';
 Amplify.configure(awsconfig)
 
 var pickerData = ["0"]; // array that will contain each value selected
 var statsData = [0]; // array that will contain each value selected
-
+var datePickerYear = [0]; // stores the year that is selected within the date picker
 
 //****************************************************************************************************************//
 // NOTES
@@ -47,7 +48,7 @@ export default function Stats({navigation}){
 
 
 //****************************************************************************************************************//
-//TESTING
+//TESTING fetch stuff
 const [userPosts, setUserPosts] = useState([]);
 const [currUserName, setCurrUserName] = useState([]);
 
@@ -58,6 +59,30 @@ const [currUserName, setCurrUserName] = useState([]);
   useEffect(() => {
     fetchUserName()
   }, [])
+
+
+//====================
+//Setting up Date Picker
+const [date, setDate] = useState(new Date());
+const [mode, setMode] = useState('date');
+const [show, setShow] = useState(true);
+datePickerYear = date.getFullYear(); // this gets the year that is selected in the date picker
+
+// when date is selected
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setShow(Platform.OS === 'ios');
+  setDate(currentDate);
+};
+
+const showMode = (currentMode) => {
+  setShow(true);
+  setMode(currentMode);
+};
+
+const showDatepicker = () => {
+  showMode('date');
+};
 
 async function fetchUserPosts(){
 
@@ -94,14 +119,12 @@ console.log(currUserName);
     setPickerResult(pickerData[0]);
   }
 
-  // all the filters are named the same
-
+  
 //****************************************************************************************************************//
 // Graph filters for Peterborough Data                                                                            //
 // Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start                                    //
 //****************************************************************************************************************//
 //========================================================================================================
-//Graph filter product_type
 async function ProductYFilter(){
   try{
 
@@ -110,7 +133,7 @@ async function ProductYFilter(){
     { product_quantity: {ge: 0} }]
   }
   const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
-  const filteredData = filterYData.data.listUserPosts.items;
+  const filteredData = filterYData.data.listUserPosts.items.product_quantity;
   setFilteredData(filteredData);
   return filterYData;
   } catch (err) { console.log('Error creating filter.')};
@@ -120,14 +143,16 @@ async function ProductYFilter(){
     var filterQuantityData = [filteredData.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
     var filterTimeData = [filteredData.timeline_start];
     var filterSizeData = [filteredData.product_size];
+
+
  // console.log("THIS:",filteredData[0,0])
 
 
 //****************************************************************/
 // Graph data creation for all stats, filters are named the same but the result of the ddpicker decides what type of filter gets used
-const graphOneYData = [ // graph one data used for type vs quantity
 
-  {ProductType: 1, ProductQuantity: userPosts/*filterQuantityData*/},
+const graphOneYData = [ // graph one data used for type vs quantity
+  {ProductType: 1, ProductQuantity: userPosts /*filterQuantityData*/},
 
 
 ];
@@ -157,6 +182,9 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 
 ];
 
+ //******************************************************************************************************************************************************************//
+ // RETURN STARTS                                                     RETURN STARTS                                                               RETURN STARTS      //
+ //******************************************************************************************************************************************************************//
 
  // if() // if we are using product quantity vs type   (if user data == this type of graph)
   {
@@ -167,9 +195,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 // BUTTON FOR SUBMITTING USER DROP DOWN PICKER DATA
 //==================================================
 <SafeAreaView style={styles.container}>
-  <ScrollView style={styles.ScrollView}>
-
-
+<ScrollView contentContainerStyle={{flexGrow: 1, justifyContent:'center',alignItems: 'center'}}>
 
 <TouchableOpacity style={styles.profileButtons} onPress = {updateGraphHandler}>
             <Text style={styles.loginText}>Submit</Text>
@@ -213,7 +239,29 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         //style={customPickerStyles.inputIOS}
       />
     </View>
+    {//============================================================================================================================
+      // year picker for the graph
+      // button doesnt do anything... but the way this is set up atm the datetime picker doesnt work without the button.
+    }
+    <View>
+    <View>
+        <Button onPress={showDatepicker} title="Pick Date!" />
+      </View>
+      
+      {show && (
+        <DateTimePicker
+          minimumDate={new Date(2021, 0, 1)}
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
+    </View>
 
+    <View style={styles.graphContainer}>
     {
       //============================================================================================================================
       //GRAPH STYLE 1
@@ -243,7 +291,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         y="ProductQuantity"
       />
     </VictoryChart>
-
+    </View>
     {
       //============================================================================================================================
       //GRAPH 2
@@ -275,26 +323,23 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       />
     </VictoryChart>
 
+
     {
       //============================================================================================================================
       //GRAPH 3
       // Y axis is timeline_start
       //This graph is used if user selects product_quantity vs timelinestart of a specific product type
       // displays max 12 bars (12 months) xaxis is months yaxis is quantity, drop down list determines the product type
-      
-
-
-      // adding stuff so that it takes year and month and shows data as the year and month
     }
-
    <VictoryChart
       // adding the material theme provided with Victory
       theme={VictoryTheme.material}
       domainPadding={{x: 40}}
       //scale={{x: ""}}
     >
+      <VictoryLabel text={datePickerYear} x={185} y={30} textAnchor="middle"/>
       <VictoryAxis
-      label="Timeline Start"
+      label="Months"
       style={{axisLabel:{padding: 30}}}
         tickValues={[1,2,3,4,5,6,7,8,9,10,11,12]}
         tickFormat={["J","F","M","A","M","J","J","A","S","O","N","D"]}
@@ -325,16 +370,25 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f5fcff"
+        backgroundColor: "#f5fcff",
+        backgroundColor: '#29A86B'
     },
+    graphContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#f5fcff",
+      
+  },
     ScrollView:{
-          paddingHorizontal: 20
+          paddingHorizontal: 20,      
     },
     loginBtn:{
       width:"50%",
       backgroundColor:"#EE7729",
       borderRadius:15,
       height:50,
+      paddingHorizontal: 20,
       alignItems:"center",
       justifyContent:"center",
       marginTop:40,

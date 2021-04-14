@@ -11,6 +11,7 @@ import { listUserPosts } from '../graphql/queries'
 
 import RadioButtonRN from 'radio-buttons-react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import awsconfig from '../aws-exports'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
@@ -131,6 +132,28 @@ export default function UserPost(){
     }
   ]
 
+  //====================
+//Setting up Date Picker
+const [date, setDate] = useState(new Date());
+const [mode, setMode] = useState('date');
+const [show, setShow] = useState(true);
+
+// when date is selected
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setShow(Platform.OS === 'ios');
+  setDate(currentDate);
+};
+
+const showMode = (currentMode) => {
+  setShow(true);
+  setMode(currentMode);
+};
+
+const showDatepicker = () => {
+  showMode('date');
+};
+
     return (
       <DismissKeyboard>
 
@@ -186,7 +209,27 @@ export default function UserPost(){
               placeholder = "Product Quantity"
               />
           </View>
-
+        
+    { //============================================================================================================================
+      // year picker for the graph
+      // button doesnt do anything... but the way this is set up atm the datetime picker doesnt work without the button.
+    }
+    <View>
+    <View>
+        <Button onPress={showDatepicker} title="Pick Date!" />
+    </View>     
+      {show && (
+        <DateTimePicker
+          minimumDate={new Date(2021, 0, 1)}
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
+    </View>
 
           {/* DATE PICKERS HERE */}
 
