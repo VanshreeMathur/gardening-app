@@ -21,13 +21,6 @@ var curUserName = [""]; // sets current users username, this const is used in th
 // ideas ( drop down picker for each option, when you click submit the filters go through an if statement where the data from the picker dictates what style of filters we use)
 // still need to figure out what curr user id is so they only see their personal stats.
 
-<<<<<<< HEAD
-  
-=======
-  Auth.currentUserInfo()
-    .then(data => console.log(data.username));
->>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
-
 //****************************************************************************************************************//
 // Stats Function ( where we see stuff on screen)                                                                 //
 // Shows submit button (submits contents of ddPicker), drop down picker (list of product)                         //
@@ -42,18 +35,6 @@ export default function Stats({navigation}){
     ProductYFilter()
   }, [])
 
-
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-=======
->>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
 //****************************************************************************************************************//
 //TESTING
 const [userPosts, setUserPosts] = useState([]);
@@ -93,23 +74,6 @@ console.log(currUserName(data));
 
 }
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
   // updates graph using drop down lists data
   const updateGraphHandler = () => {
     setPickerResult(pickerData[0]);
@@ -160,8 +124,7 @@ const graphTwoYData = [ // graph two data for type vs size
 
 ];
 
-<<<<<<< HEAD
-const graphThreeYData = [ // graph two data for type vs timeline start 
+const graphThreeYData = [ // graph two data for type vs timeline start
 {TimelineStart: 1, ProductQuantity: 2},
 //{TimelineStart: 1, ProductQuantity: filterTimeData},
 {TimelineStart: 2, ProductQuantity:4},
@@ -175,24 +138,6 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 {TimelineStart: 10, ProductQuantity: 99},
 {TimelineStart: 11, ProductQuantity: 14},
 {TimelineStart: 12, ProductQuantity: 300},
-=======
-const graphThreeYData = [ // graph two data for type vs timeline start
-{TimelineStart: 1, ProductQuantity: 2}
-//{TimelineStart: 1, ProductQuantity: filterTimeData},
-//{TimelineStart: 2, ProductQuantity: graphThreeData[1]},
-//{TimelineStart: 3, ProductQuantity: graphThreeData[2]},
-//{TimelineStart: 4, ProductQuantity: graphThreeData[3]},
-//{TimelineStart: 5, ProductQuantity: graphThreeData[4]},
-//{TimelineStart: 6, ProductQuantity: graphThreeData[5]},
-//{TimelineStart: 7, ProductQuantity: graphThreeData[6]},
-//{TimelineStart: 8, ProductQuantity: graphThreeData[7]},
-//{TimelineStart: 9, ProductQuantity: graphThreeData[8]},
-//{TimelineStart: 10, ProductQuantity: graphThreeData[9]},
-//{TimelineStart: 11, ProductQuantity: graphThreeData[10]},
-//{TimelineStart: 12, ProductQuantity: graphThreeData[11]},
->>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
-
-
 ];
 
 
