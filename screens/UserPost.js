@@ -11,6 +11,7 @@ import { listUserPosts } from '../graphql/queries'
 
 import RadioButtonRN from 'radio-buttons-react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import awsconfig from '../aws-exports'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
@@ -142,6 +143,28 @@ export default function UserPost(){
     }
   ]
 
+  //====================
+//Setting up Date Picker
+const [date, setDate] = useState(new Date());
+const [mode, setMode] = useState('date');
+const [show, setShow] = useState(true);
+
+// when date is selected
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setShow(Platform.OS === 'ios');
+  setDate(currentDate);
+};
+
+const showMode = (currentMode) => {
+  setShow(true);
+  setMode(currentMode);
+};
+
+const showDatepicker = () => {
+  showMode('date');
+};
+
     return (
       <DismissKeyboard>
 
@@ -153,6 +176,7 @@ export default function UserPost(){
           <View style={styles.picker}>
             <RNPickerSelect
               onValueChange={(value) => setInput('product_type',value)}
+              // useNativeAndroidPickerStyle={false}
               items={[
                 { label: 'Tomatoes', value: 0},
                 { label: 'Head of Lettuce', value: 1},
@@ -290,6 +314,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     justifyContent:"center",
     padding:20,
+  },
+  dateButton: {
+    marginBottom:20,
+    color:"#EE7729",
   },
   btnText: {
     color: 'white'

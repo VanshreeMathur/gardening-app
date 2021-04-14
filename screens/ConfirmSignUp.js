@@ -32,6 +32,7 @@ export default function ConfirmSignUp({ navigation }) {
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
         <Text style={styles.title}>Confirm Sign Up</Text>
+        <Text style={styles.subtitle}> Check email for verification code </Text>
         <AppTextInput
           value={username}
           onChangeText={text => setUsername(text)}
@@ -69,5 +70,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '500',
     marginVertical: 15
-  }
+  },
+  subtitle: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: '500',
+    marginVertical: 15,
+    fontStyle: 'italic'
+  },
 });
