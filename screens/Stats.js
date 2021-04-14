@@ -16,15 +16,20 @@ var statsData = [0]; // array that will contain each value selected
 var curUserName = [""]; // sets current users username, this const is used in the specific user filter
 
 //****************************************************************************************************************//
-// NOTES 
+// NOTES
 // Still need to make a way to choose what style of data to pick, user data vs peterborough data
 // ideas ( drop down picker for each option, when you click submit the filters go through an if statement where the data from the picker dictates what style of filters we use)
 // still need to figure out what curr user id is so they only see their personal stats.
 
+<<<<<<< HEAD
   
+=======
+  Auth.currentUserInfo()
+    .then(data => console.log(data.username));
+>>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
 
 //****************************************************************************************************************//
-// Stats Function ( where we see stuff on screen)                                                                 //              
+// Stats Function ( where we see stuff on screen)                                                                 //
 // Shows submit button (submits contents of ddPicker), drop down picker (list of product)                         //
 // Shows 3 graphs, each using data from the user selection on the ddpicker.                                       //
 //****************************************************************************************************************//
@@ -38,6 +43,7 @@ export default function Stats({navigation}){
   }, [])
 
 
+<<<<<<< HEAD
 
 
 
@@ -46,6 +52,8 @@ export default function Stats({navigation}){
 
 
 
+=======
+>>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
 //****************************************************************************************************************//
 //TESTING
 const [userPosts, setUserPosts] = useState([]);
@@ -85,6 +93,7 @@ console.log(currUserName(data));
 
 }
 
+<<<<<<< HEAD
 
 
 
@@ -99,6 +108,8 @@ console.log(currUserName(data));
 
 
 
+=======
+>>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
   // updates graph using drop down lists data
   const updateGraphHandler = () => {
     setPickerResult(pickerData[0]);
@@ -114,7 +125,7 @@ console.log(currUserName(data));
 //Graph filter product_type
 async function ProductYFilter(){
   try{
-    
+
     let yfilter = {
       and: [{ product_type: {eq: pickerData[0]}},
     { product_quantity: {ge: 0} }]
@@ -124,9 +135,9 @@ async function ProductYFilter(){
   setFilteredData(filteredData);
   return filterYData;
   } catch (err) { console.log('Error creating filter.')};
-  
+
   }
-  
+
     var filterQuantityData = [filteredData.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
     var filterTimeData = [filteredData.timeline_start];
     var filterSizeData = [filteredData.product_size];
@@ -149,6 +160,7 @@ const graphTwoYData = [ // graph two data for type vs size
 
 ];
 
+<<<<<<< HEAD
 const graphThreeYData = [ // graph two data for type vs timeline start 
 {TimelineStart: 1, ProductQuantity: 2},
 //{TimelineStart: 1, ProductQuantity: filterTimeData},
@@ -163,6 +175,22 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 {TimelineStart: 10, ProductQuantity: 99},
 {TimelineStart: 11, ProductQuantity: 14},
 {TimelineStart: 12, ProductQuantity: 300},
+=======
+const graphThreeYData = [ // graph two data for type vs timeline start
+{TimelineStart: 1, ProductQuantity: 2}
+//{TimelineStart: 1, ProductQuantity: filterTimeData},
+//{TimelineStart: 2, ProductQuantity: graphThreeData[1]},
+//{TimelineStart: 3, ProductQuantity: graphThreeData[2]},
+//{TimelineStart: 4, ProductQuantity: graphThreeData[3]},
+//{TimelineStart: 5, ProductQuantity: graphThreeData[4]},
+//{TimelineStart: 6, ProductQuantity: graphThreeData[5]},
+//{TimelineStart: 7, ProductQuantity: graphThreeData[6]},
+//{TimelineStart: 8, ProductQuantity: graphThreeData[7]},
+//{TimelineStart: 9, ProductQuantity: graphThreeData[8]},
+//{TimelineStart: 10, ProductQuantity: graphThreeData[9]},
+//{TimelineStart: 11, ProductQuantity: graphThreeData[10]},
+//{TimelineStart: 12, ProductQuantity: graphThreeData[11]},
+>>>>>>> 2c3823d270aec0a7878d059c7835551266bc5b3b
 
 
 ];
@@ -198,7 +226,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         //style={customPickerStyles.inputIOS}
       />
     </View>
-        
+
 
 <View style={styles.picker}>
       <RNPickerSelect
@@ -224,9 +252,9 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       />
     </View>
 
-    { 
+    {
       //============================================================================================================================
-      //GRAPH STYLE 1 
+      //GRAPH STYLE 1
       // Y axis is Product_Quantity
       //This graph is used if user selects product_type vs product_quantity
     }
@@ -254,7 +282,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       />
     </VictoryChart>
 
-    { 
+    {
       //============================================================================================================================
       //GRAPH 2
       // Y axis is Product_Size
@@ -283,16 +311,16 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         x="ProductType"
         y="ProductSize"
       />
-    </VictoryChart>    
+    </VictoryChart>
 
-    { 
+    {
       //============================================================================================================================
       //GRAPH 3
       // Y axis is timeline_start
       //This graph is used if user selects product_quantity vs timelinestart of a specific product type
       // displays max 12 bars (12 months) xaxis is months yaxis is quantity, drop down list determines the product type
     }
-   
+
    <VictoryChart
       // adding the material theme provided with Victory
       theme={VictoryTheme.material}
@@ -308,7 +336,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       <VictoryAxis
         dependentAxis
         label="Product Quantity"
-        style={{axisLabel:{padding: 40}}} 
+        style={{axisLabel:{padding: 40}}}
         tickFormat={(x) => (`${x / 1}`)} // determines the range on our y axis (change 1000 to change the numbers shown on the y axis)
       />
       <VictoryBar
@@ -316,11 +344,11 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         x="TimelineStart"
         y="ProductQuantity"
       />
-    </VictoryChart>    
-    
+    </VictoryChart>
+
     </ScrollView>
     </SafeAreaView>
-    
+
     )
   }
 
