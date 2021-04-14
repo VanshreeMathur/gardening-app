@@ -165,6 +165,7 @@ const showDatepicker = () => {
           <View style={styles.picker}>
             <RNPickerSelect
               onValueChange={(value) => setInput('product_type',value)}
+              // useNativeAndroidPickerStyle={false}
               items={[
                 { label: 'Tomatoes', value: 1},
                 { label: 'Lettuce', value: 2},
@@ -216,7 +217,7 @@ const showDatepicker = () => {
     }
     <View>
     <View style={styles.dateButton}>
-        <Button onPress={showDatepicker} title="Pick Date!" />
+        <Button onPress={showDatepicker} title="Pick Date" />
     </View>
       {show && (
         <DateTimePicker
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
   },
   dateButton: {
     marginBottom:20,
-    color:"white",
+    color:"#EE7729",
   },
   btnText: {
     color: 'white'
