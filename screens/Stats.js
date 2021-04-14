@@ -8,6 +8,7 @@ import { Amplify, API, Auth, graphqlOperation } from 'aws-amplify';
 import awsconfig from '../aws-exports'
 import UserPost from './UserPost';
 import RNPickerSelect from 'react-native-picker-select';
+import { mayInitWithUrlAsync } from 'expo-web-browser';
 Amplify.configure(awsconfig)
 
 var pickerData = ["0"]; // array that will contain each value selected
@@ -20,9 +21,7 @@ var curUserName = [""]; // sets current users username, this const is used in th
 // ideas ( drop down picker for each option, when you click submit the filters go through an if statement where the data from the picker dictates what style of filters we use)
 // still need to figure out what curr user id is so they only see their personal stats.
 
-<<<<<<< HEAD
-  Auth.currentUserInfo()
-    .then(data => console.log(data.username));
+  
 
 //****************************************************************************************************************//
 // Stats Function ( where we see stuff on screen)                                                                 //              
@@ -41,84 +40,23 @@ export default function Stats({navigation}){
 
 
 
-=======
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
 
 
 
 
-<<<<<<< HEAD
-=======
-//****************************************************************************************************************//
-// Graphs for Specific User Data                                                                                  //
-// Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start                                    //
-//****************************************************************************************************************//
-
-//========================================================================================================
-//Graph 1 type vs quantity
-const usergOneFilter = async function ProductYFilter(){
-  try{
-    let yfilter = {
-      and: [{ product_type: {eq:pickerData[0]}},
-      { user_id: {eq:0}}, // THIS NEEDS TO BE CURRENT USER ID NOT 0
-    { product_quantity: {ge: 0} }]
-       // everything should be available with this filter aka even vegetables you havent grown.
-       // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
-      
-  }
-  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
-  return filterYData;
-  } catch (err) { console.log('Error creating filter.')};
-     
-  }
-  var usergraphOneData = [usergOneFilter.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
-  
-  //========================================================================================================
-  //Graph 2 type vs size
-  const usergTwoFilter = async function ProductYFilter(){
-    try{
-      let yfilter = {
-        and: [{ product_type: {eq:pickerData[0]}},
-        { user_id: {eq:0}}, // THIS NEEDS TO BE CURRENT USER ID NOT 0
-      { product_size: {ge: 0} }]
-         // everything should be available with this filter aka even vegetables you havent grown.
-         // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
-        
-    }
-    const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
-    return filterYData;
-    } catch (err) { console.log('Error creating filter.')};
-       
-    }
-    var usergraphTwoData = [usergTwoFilter.product_size];
-  
-  //========================================================================================================
-  //Graph 3 type vs timeline start
-  const usergThreeFilter = async function ProductYFilter(){
-    try{
-      let yfilter = {
-        and: [{ product_type: {eq:pickerData[0]}},
-        { user_id: {eq:0}}, // THIS NEEDS TO BE CURRENT USER ID NOT 0
-      { timeline_start: {ge: 0} }]
-         // everything should be available with this filter aka even vegetables you havent grown.
-         // the idea of this filter is to allow someone to lookup if they have grown tomatoes eg, and see that they havent without throwing them an error.
-        
-    }
-    const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
-    return filterYData;
-    } catch (err) { console.log('Error creating filter.')};
-       
-    }
-    var usergraphThreeData = [usergThreeFilter.timeline_start]; // needs to store array data in 12 elements, 0 being january and storing the quantity, 11 being december storing the quantity
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
 
 
 //****************************************************************************************************************//
 //TESTING
 const [userPosts, setUserPosts] = useState([]);
+const [currUserName, setCurrUserName] = useState([]);
 
   useEffect(() => {
     fetchUserPosts()
+  }, [])
+
+  useEffect(() => {
+    fetchUserName()
   }, [])
 
 async function fetchUserPosts(){
@@ -133,29 +71,32 @@ async function fetchUserPosts(){
 
 }
 
+async function fetchUserName(){
 
-<<<<<<< HEAD
-=======
-  {ProductType: 1, ProductQuantity: usergraphOneData},
- 
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
+  try{
 
+    Auth.currentUserInfo()
+    .then(data => console.log(data) );
+//const currUserName = currUserNameData;
+;
+console.log(currUserName(data));
 
-<<<<<<< HEAD
+  } catch (err) { {/*console.log('Error fetching posts.') */}};
 
-
-
-
-
-
+}
 
 
 
-=======
-const usergraphTwoYData = [ // graph two data for type vs size 
 
-{ProductType: 1, ProductSize: usergraphTwoData},
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
+
+
+
+
+
+
+
+
+
 
 
   // updates graph using drop down lists data
@@ -203,46 +144,26 @@ const graphOneYData = [ // graph one data used for type vs quantity
 
 const graphTwoYData = [ // graph two data for type vs size
 
-<<<<<<< HEAD
 {ProductType: 1, ProductSize: filterSizeData},
-=======
-  {ProductType: 1, ProductSize: graphTwoData},
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
 
 
 ];
 
 const graphThreeYData = [ // graph two data for type vs timeline start 
-{TimelineStart: 1, ProductQuantity: 1}
+{TimelineStart: 1, ProductQuantity: 2},
 //{TimelineStart: 1, ProductQuantity: filterTimeData},
-//{TimelineStart: 2, ProductQuantity: graphThreeData[1]},
-//{TimelineStart: 3, ProductQuantity: graphThreeData[2]},
-//{TimelineStart: 4, ProductQuantity: graphThreeData[3]},
-//{TimelineStart: 5, ProductQuantity: graphThreeData[4]},
-//{TimelineStart: 6, ProductQuantity: graphThreeData[5]},
-//{TimelineStart: 7, ProductQuantity: graphThreeData[6]},
-//{TimelineStart: 8, ProductQuantity: graphThreeData[7]},
-//{TimelineStart: 9, ProductQuantity: graphThreeData[8]},
-//{TimelineStart: 10, ProductQuantity: graphThreeData[9]},
-//{TimelineStart: 11, ProductQuantity: graphThreeData[10]},
-//{TimelineStart: 12, ProductQuantity: graphThreeData[11]},
+{TimelineStart: 2, ProductQuantity:4},
+{TimelineStart: 3, ProductQuantity: 16},
+{TimelineStart: 4, ProductQuantity: 100},
+{TimelineStart: 5, ProductQuantity: 1},
+{TimelineStart: 6, ProductQuantity: 55},
+{TimelineStart: 7, ProductQuantity: 12},
+{TimelineStart: 8, ProductQuantity: 12},
+{TimelineStart: 9, ProductQuantity: 0},
+{TimelineStart: 10, ProductQuantity: 99},
+{TimelineStart: 11, ProductQuantity: 14},
+{TimelineStart: 12, ProductQuantity: 300},
 
-<<<<<<< HEAD
-=======
-  {TimelineStart: 1, ProductQuantity: graphThreeData},
-  //{TimelineStart: 2, ProductQuantity: graphThreeData[1]},
-  //{TimelineStart: 3, ProductQuantity: graphThreeData[2]},
-  //{TimelineStart: 4, ProductQuantity: graphThreeData[3]},
-  //{TimelineStart: 5, ProductQuantity: graphThreeData[4]},
-  //{TimelineStart: 6, ProductQuantity: graphThreeData[5]},
-  //{TimelineStart: 7, ProductQuantity: graphThreeData[6]},
-  //{TimelineStart: 8, ProductQuantity: graphThreeData[7]},
-  //{TimelineStart: 9, ProductQuantity: graphThreeData[8]},
-  //{TimelineStart: 10, ProductQuantity: graphThreeData[9]},
-  //{TimelineStart: 11, ProductQuantity: graphThreeData[10]},
-  //{TimelineStart: 12, ProductQuantity: graphThreeData[11]},
-  
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
 
 ];
 
@@ -286,7 +207,6 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       }}
         onValueChange={(value) => (pickerData[0] = value)}
         items={[
-<<<<<<< HEAD
           { label: 'Tomatoes', value: 0},
           { label: 'Head of Lettuce', value: 1},
           { label: 'Kale', value: 2},
@@ -299,20 +219,6 @@ const graphThreeYData = [ // graph two data for type vs timeline start
           { label: 'Beans', value: 9},
           { label: 'Garlic', value: 10},
           { label: 'Beets', value: 11}
-=======
-          { label: 'Tomatoes', value: 1},
-          { label: 'Lettuce', value: 2},
-          { label: 'Kale', value: 3},
-          { label: 'Carrots', value: 4},
-          { label: 'Peppers', value: 5},
-          { label: 'Radishes', value: 6},
-          { label: 'Potatoes', value: 7},
-          { label: 'Squash', value: 8},
-          { label: 'Cucumbers', value: 9},
-          { label: 'Beans', value: 10},
-          { label: 'Garlic', value: 11},
-          { label: 'Beets', value: 12}
->>>>>>> 7d5aa5d57bf13f302a99cd7bf477ad3767e7f034
         ]}
         //style={customPickerStyles.inputIOS}
       />
