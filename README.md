@@ -1,5 +1,7 @@
 # gardening-app
 
+**This project is current incomplete.**
+
 **Project Name** <br>
 Nourish: Harvest Data Collection App
 
