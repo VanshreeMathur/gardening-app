@@ -42,7 +42,7 @@ The app uses a set of forms to take in user info and then allows the user to vie
 ## Visuals <br>
 
 1. _Login Page_
-![Screenshot of Login](./assets/Login.jpg)
+<img src="assets/Login.jpg" width="200">
 
 ## Authors and Acknowledgment <br>
 This project was worked on by: Matthew Allen, Mitchell Cummings and Vanshree Mathur. We would like to thank the Nourish team for all their insight and guidance throughout this project. We would also like to thank our Professor, Omar Alam, for his support and counselling this year.
