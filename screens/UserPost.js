@@ -170,11 +170,7 @@ export default function UserPost(){
               // useNativeAndroidPickerStyle={false}
               items={[
                 { label: 'Tomatoes', value: 0},
-<<<<<<< HEAD
-                { label: 'Lettuce', value: 1},
-=======
                 { label: 'Head of Lettuce', value: 1},
->>>>>>> 85b06e9482de2a4bad685a3497a389cc8af64292
                 { label: 'Kale', value: 2},
                 { label: 'Carrots', value: 3},
                 { label: 'Peppers', value: 4},

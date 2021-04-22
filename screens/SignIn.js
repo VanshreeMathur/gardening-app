@@ -43,11 +43,11 @@ export default function SignIn({ navigation, updateAuthState }) {
     //Main Container
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
-        //Title
+        {/* Title */}
         <Text style={styles.title}>Welcome to Nourish! </Text>
-        //Sub-title
+        {/* Sub-title */}
         <Text style={styles.subtitle}> Harvest Data Collection App </Text>
-        //Prompt user for username
+        {/* Prompt user for username */}
         <AppTextInput
           value={username}
           onChangeText={text => setUsername(text)}
@@ -57,7 +57,7 @@ export default function SignIn({ navigation, updateAuthState }) {
           keyboardType="email-address"
           textContentType="emailAddress"
         />
-        //Prompt user for password
+        {/* Prompt user for password */}
         <AppTextInput
           value={password}
           onChangeText={text => setPassword(text)}
@@ -68,13 +68,13 @@ export default function SignIn({ navigation, updateAuthState }) {
           secureTextEntry
           textContentType="password"
         />
-        //Login Button -> Will activate the Sign-In function
+        {/* Login Button -> Will activate the Sign-In function */}
         <AppButton title="Login" onPress={signIn} />
-        //Sign-Up Button for New Users
+        {/* Sign-Up Button for New Users */}
         <View style={styles.footerButtonContainer}>
-          //Navigate to Sign-Up Page
+          {/* Navigate to Sign-Up Page */}
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            // Text within Sign-Up Button
+            {/* Text within Sign-Up Button */}
             <Text style={styles.signUpText}>
               Don't have an account? Sign Up
             </Text>

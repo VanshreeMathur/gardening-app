@@ -45,9 +45,9 @@ export default function SignUp({ navigation }) {
     // Main Container
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
-        //Title
+        {/* Title */}
         <Text style={styles.title}>Create an Account</Text>
-        //Prompt User for Username
+        {/* Prompt User for Username */}
         <AppTextInput
           value={username}
           onChangeText={text => setUsername(text)}
@@ -57,7 +57,7 @@ export default function SignUp({ navigation }) {
           keyboardType="email-address"
           textContentType="emailAddress"
         />
-        //Prompt User for Password
+        {/* Prompt User for Password */}
         <AppTextInput
           value={password}
           onChangeText={text => setPassword(text)}
@@ -68,7 +68,7 @@ export default function SignUp({ navigation }) {
           secureTextEntry
           textContentType="password"
         />
-        //Prompt User for Email
+        {/* Prompt User for Email */}
         <AppTextInput
           value={email}
           onChangeText={text => setEmail(text)}
@@ -78,13 +78,13 @@ export default function SignUp({ navigation }) {
           keyboardType="email-address"
           textContentType="emailAddress"
         />
-        //Sign-Up Button
+        {/* Sign-Up Button */}
         <AppButton title="Sign Up" onPress={signUp} />
-        //Footer Container
+        {/* Footer Container */}
         <View style={styles.footerButtonContainer}>
-          //Navigate to Sign-In Page
+          {/* Navigate to Sign-In Page */}
           <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-            //Text for Sign-In Button
+            {/* Text for Sign-In Button */}
             <Text style={styles.signInButton}>
               Already have an account? Sign In
             </Text>

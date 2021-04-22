@@ -2,7 +2,7 @@
 import 'react-native-gesture-handler';
 import React, { Component, useState, useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet, Text, StatusBar, Button } from 'react-native';
-import Navigator from './routes/homeStack.js';
+// import Navigator from './routes/homeStack.js';
 import { createStackNavigator } from '@react-navigation/stack';
 import { withAuthenticator, Authenticator } from 'aws-amplify-react-native'
 import { AmplifyTheme } from 'aws-amplify-react-native';
@@ -30,15 +30,15 @@ const AppStack = createStackNavigator();
 const AuthenticationNavigator = props => {
   return (
     <AuthenticationStack.Navigator headerMode="none">
-      //Sign-In Screen
+      {/* Sign-In Screen */}
       <AuthenticationStack.Screen name="SignIn">
         {screenProps => (
           <SignIn {...screenProps} updateAuthState={props.updateAuthState} />
         )}
       </AuthenticationStack.Screen>
-      //Sign-Up Screen
+      {/* Sign-Up Screen */}
       <AuthenticationStack.Screen name="SignUp" component={SignUp} />
-      //Confirm Sign-Up Screen
+      {/* Confirm Sign-Up Screen */}
       <AuthenticationStack.Screen
         name="ConfirmSignUp"
         component={ConfirmSignUp}
@@ -51,19 +51,19 @@ const AuthenticationNavigator = props => {
 const AppNavigator = props => {
   return (
     <AppStack.Navigator>
-      //Home Screen
+      {/* Home Screen */}
       <AppStack.Screen name="Home">
         {screenProps => (
           <Home {...screenProps} updateAuthState={props.updateAuthState}/>
         )}
       </AppStack.Screen>
-      //User Post Screen
+      {/* User Post Screen */}
       <AppStack.Screen name="Harvest">
         {screenProps => (
           <Harvest {...screenProps} updateAuthState={props.updateAuthState}/>
         )}
       </AppStack.Screen>
-      //Statistics Screen
+      {/* Statistics Screen */}
       <AppStack.Screen name="Stats">
         {screenProps => (
           <Stats {...screenProps} updateAuthState={props.updateAuthState}/>
@@ -118,13 +118,13 @@ function App() {
   return (
     //Navigation Container
     <NavigationContainer>
-        //Initializing App -> Initializing Function
+        {/* Initializing App -> Initializing Function */}
         {isUserLoggedIn === 'initializing' && <Initializing />}
-        // When user is logged in -> update auth state for App Navigator
+        {/*When user is logged in -> update auth state for App Navigator*/}
         {isUserLoggedIn === 'loggedIn' && (
           <AppNavigator updateAuthState={updateAuthState}/>
         )}
-        // When user is logged out -> update auth state for Authentication Navigator
+        {/*When user is logged out -> update auth state for Authentication Navigator*/}
         {isUserLoggedIn === 'loggedOut' && (
           <AuthenticationNavigator updateAuthState={updateAuthState} />
         )}

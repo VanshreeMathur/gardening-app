@@ -7,7 +7,7 @@ import { ProfilePicture } from 'react-native-profile-picture';
 import Amplify, { Auth } from 'aws-amplify';
 import { withAuthenticator, Authenticator } from 'aws-amplify-react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Navigator from '../routes/homeStack.js';
+// import Navigator from '../routes/homeStack.js';
 
 //Export Function
 export default function Home({ navigation, updateAuthState }){
@@ -46,25 +46,25 @@ export default function Home({ navigation, updateAuthState }){
     return(
       //Main Container
       <View style={styles.container}>
-          //Title
+          {/* Title */}
           <Text style={styles.profileHeading}> Home </Text>
 
-          //Contact-Us Button -> Will activate WebBrowser Navigator
+          {/* Contact-Us Button -> Will activate WebBrowser Navigator */}
           <TouchableOpacity style={styles.contactUsButton} onPress = {_handlePressButtonAsync}>
             <Text style={styles.loginText}> Contact us! </Text>
           </TouchableOpacity>
 
-          //Post Harvest Data Button
+          {/* Post Harvest Data Button */}
           <TouchableOpacity style={styles.profileButtons} onPress = {pressHandler1}>
             <Text style={styles.loginText}>Post Harvest Data</Text>
           </TouchableOpacity>
 
-          //View Statistics Button
+          {/* View Statistics Button */}
           <TouchableOpacity style={styles.profileButtons} onPress = {pressHandler2}>
             <Text style={styles.loginText}>View Statistics</Text>
           </TouchableOpacity>
 
-          //Sign-out button -> Will activate signOut function
+          {/* Sign-out button -> Will activate signOut function */}
           <TouchableOpacity style={styles.signupBtn} onPress= {signOut}>
             <Text style={styles.loginText}> LOG OUT </Text>
           </TouchableOpacity>

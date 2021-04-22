@@ -132,15 +132,9 @@ async function ProductYFilter(){
       and: [{ product_type: {eq: pickerData[0]}},
     { product_quantity: {ge: 0} }]
   }
-<<<<<<< HEAD
-  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}}); // queries for listUserPosts, uses filter we previously made 
-  const filteredData = filterYData.data.listUserPosts.items; // filteredData is equal to all the data that we filter queried.
-  setFilteredData(filteredData); //update filteredData state
-=======
   const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
   const filteredData = filterYData.data.listUserPosts.items;
   setFilteredData(filteredData);
->>>>>>> 85b06e9482de2a4bad685a3497a389cc8af64292
   return filterYData;
   } catch (err) { console.log('Error creating filter.')};
 
