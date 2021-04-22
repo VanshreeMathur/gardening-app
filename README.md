@@ -26,12 +26,12 @@ This app was designed to allow for local gardeners in Peterborough to submit and
         2. Display Statistics - See more info on 6. 
     3. Users have the option to log-out of their account via the button at the bottom of the page -> leads them to login. 
     
-5. _User-Posts Page_ 
+4. _User-Posts Page_ 
     1. Users come to this page when they press "Harvest Data" on the Home Page
     2. Users can enter the type of crop, the size of the crop, the quantity, and the month it was harvested
     3. The 'create post' button will tell them that they harvest data has been successfully recorded in our database.
     
-6. _Statistics Page_
+5. _Statistics Page_
     1. Users come to this page when they press "Display Statistics" on the Home Page
     2. Users have the option to see crops unique to the user as well as crops grown by the Peterborough Community. 
     3. They can filter by product type vs quantity, product type vs size, and product type vs timeline 
@@ -42,7 +42,20 @@ The app uses a set of forms to take in user info and then allows the user to vie
 ## Visuals <br>
 
 1. _Login Page_
-<img src="assets/Login.jpg" width="200">
+<img src="assets/Login.jpg" width="200"> <br> 
+
+2. _Sign-Up Page_
+<img src="assets/Signup.jpg" width="200"> <br> 
+
+3. _Home Page_
+<img src="assets/Home.jpg" width="200"> <br> 
+
+4. _User-Posts Page_
+<img src="assets/harvest.jpg" width="200"> <br>
+
+5. _Statistics Page_
+<img src="assets/stats1.jpg" width="200"> <br> 
+<img src="assets/stats2.jpg" width="200"> <br> 
 
 ## Authors and Acknowledgment <br>
 This project was worked on by: Matthew Allen, Mitchell Cummings and Vanshree Mathur. We would like to thank the Nourish team for all their insight and guidance throughout this project. We would also like to thank our Professor, Omar Alam, for his support and counselling this year.
