@@ -22,8 +22,8 @@ This app was designed to allow for local gardeners in Peterborough to submit and
 3. _Home Page_
     1. Users have the option to talk to Nourish via the Contact-Us Button. The button leads them [here](https://nourishproject.ca/contact-us).
     2. There are two options on the page: 
-        1. Harvest Data - See more info on 5. 
-        2. Display Statistics - See more info on 6. 
+        1. Harvest Data - See more info on 4. 
+        2. Display Statistics - See more info on 5. 
     3. Users have the option to log-out of their account via the button at the bottom of the page -> leads them to login. 
     
 4. _User-Posts Page_ 
