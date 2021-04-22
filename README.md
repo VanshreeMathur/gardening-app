@@ -42,7 +42,7 @@ The app uses a set of forms to take in user info and then allows the user to vie
 ## Visuals <br>
 
 1. _Login Page_
-<img src="assets/Login.jpg" width="200"> <br> 
+    1. <img src="assets/Login.jpg" width="200"> <br> 
 
 2. _Sign-Up Page_
 <img src="assets/Signup.jpg" width="200"> <br> 
