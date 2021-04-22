@@ -1,4 +1,4 @@
-# gardening-app
+# Nourish - Local Garden Growth Application
 
 **This project is currently incomplete.**
 
@@ -12,4 +12,4 @@ This app was designed to allow for local gardeners in Peterborough to submit and
 The app uses a set of forms to take in user info and then allows the user to view that data in various graphs. It also uses a standard sign up and login so we can seperate data based on user.
 
 **Credits** <br>
-This project was worked on by: Matthew Allen, Mitchell Cummings and VanShree Mathur
+This project was worked on by: Matthew Allen, Mitchell Cummings and Vanshree Mathur
