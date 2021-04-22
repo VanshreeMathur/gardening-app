@@ -39,7 +39,7 @@ This app was designed to allow for local gardeners in Peterborough to submit and
 ## Usage <br>
 The app uses a set of forms to take in user info and then allows the user to view that data in various graphs. It also uses a standard sign up and login so we can seperate data based on user. This app will be available on the [App Store](https://www.apple.com/ca/app-store/) for IOS and [Google Play Store](https://play.google.com/store) for Android. <br> 
 
-## Visuals <br>
+### Visuals <br>
 
 1. _Login Page_
     1. <img src="assets/Login.jpg" width="200"> <br> 
