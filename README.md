@@ -1,8 +1,6 @@
 # Nourish - Local Garden Growth Application
 
-## Project Status <br>
-
-This project is currently in-progress. Please come back for final release!
+**Project Status: This project is currently in-progress. Please come back for final release!**
 
 ## Project Name <br>
 Nourish: Harvest Data Collection App
@@ -13,8 +11,9 @@ This app was designed to allow for local gardeners in Peterborough to submit and
 ## Usage <br>
 The app uses a set of forms to take in user info and then allows the user to view that data in various graphs. It also uses a standard sign up and login so we can seperate data based on user.
 
-## Acknowledgments <br>
-We would like to thank the Nourish team for all their insight and guidance throughout this project. We would also like to thank our Professor, Omar Alam, for his support and counselling this year.
+## Authors and Acknowledgment <br>
+This project was worked on by: Matthew Allen, Mitchell Cummings and Vanshree Mathur <br> 
+We would like to thank the Nourish team for all their insight and guidance throughout this project. <br>
+We would also like to thank our Professor, Omar Alam, for his support and counselling this year.
 
-## Credits <br>
-This project was worked on by: Matthew Allen, Mitchell Cummings and Vanshree Mathur
+
