@@ -67,7 +67,8 @@ const [date, setDate] = useState(new Date());
 const [mode, setMode] = useState('date');
 const [show, setShow] = useState(true);
 datePickerYear = date.getFullYear(); // this gets the year that is selected in the date picker
-
+const datePickermonth = date.getMonth(); // this gets the year that is selected in the date picker
+const dateGraphTitle = datePickerYear + "/" + datePickermonth;
 // when date is selected
 const onChange = (event, selectedDate) => {
   const currentDate = selectedDate || date;
@@ -87,21 +88,18 @@ const showDatepicker = () => {
 async function fetchUserPosts(){
 
   try{
-
+  
     const userPostData = await API.graphql(graphqlOperation(listUserPosts));
     const userPosts = userPostData.data.listUserPosts.items;
     setUserPosts(userPosts);
-
+    console.log(API.graphql(graphqlOperation(listUserPosts)));
+    return (listUserPosts);
   } catch (err) { {/*console.log('Error fetching posts.') */}};
-
 }
 
 async function fetchUserName(){
 
   try{
-/*
-    Auth.currentUserInfo()
-    .then(data => console.log(data.id) );*/
 
     const { username } = await Auth.currentAuthenticatedUser();
     const currUserName = username;
@@ -111,7 +109,7 @@ async function fetchUserName(){
   } catch (err) { {/*console.log('Error fetching posts.') */}};
 
 }
-console.log(currUserName);
+
 
 
   // updates graph using drop down lists data
@@ -122,7 +120,9 @@ console.log(currUserName);
   
 //****************************************************************************************************************//
 // Graph filters for Peterborough Data                                                                            //
-// Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start                                    //
+// Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start        
+//
+// FOR USER STATS:  add user_id: {eq: currUserName } to the filter  (currUserName is set in fetchUserName)
 //****************************************************************************************************************//
 //========================================================================================================
 async function ProductYFilter(){
@@ -132,20 +132,20 @@ async function ProductYFilter(){
       and: [{ product_type: {eq: pickerData[0]}},
     { product_quantity: {ge: 0} }]
   }
-  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
-  const filteredData = filterYData.data.listUserPosts.items.product_quantity;
-  setFilteredData(filteredData);
+  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}}); // queries for listUserPosts, uses filter we previously made 
+  const filteredData = filterYData.data.listUserPosts.items; // filteredData is equal to all the data that we filter queried.
+  setFilteredData(filteredData); //update filteredData state
   return filterYData;
   } catch (err) { console.log('Error creating filter.')};
 
   }
 
-    var filterQuantityData = [filteredData.product_quantity]; // please work is the filtered result of products, but we just want to give the graph the quantity to post
-    var filterTimeData = [filteredData.timeline_start];
-    var filterSizeData = [filteredData.product_size];
+    var filterQuantityData = [filteredData.product_quantity]; // not used yet as it doesnt work but takes all items that are filtered, and pickes just the quantity 
+    var filterTimeData = [filteredData.timeline_start]; //not used yet as it doesnt work but takes all items that are filtered, and pickes just the timeline_start
+    var filterSizeData = [filteredData.product_size]; //not used yet as it doesnt work but takes all items that are filtered, and pickes just the size
 
 
- // console.log("THIS:",filteredData[0,0])
+
 
 
 //****************************************************************/
@@ -178,7 +178,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 {TimelineStart: 10, ProductQuantity: 99},
 {TimelineStart: 11, ProductQuantity: 14},
 {TimelineStart: 12, ProductQuantity: 300},
-
+// if we are showing every month its set up like this, if we want to just show one month at a time, it needs to add that to the filter then delete the last 11 lines of data
 
 ];
 
@@ -195,7 +195,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 // BUTTON FOR SUBMITTING USER DROP DOWN PICKER DATA
 //==================================================
 <SafeAreaView style={styles.container}>
-<ScrollView contentContainerStyle={{flexGrow: 1, justifyContent:'center',alignItems: 'center'}}>
+<ScrollView contentContainerStyle={{flexGrow: 1, justifyContent:'center',alignItems: 'center'}}> 
 
 <TouchableOpacity style={styles.profileButtons} onPress = {updateGraphHandler}>
             <Text style={styles.loginText}>Submit</Text>
@@ -261,7 +261,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       )}
     </View>
 
-    <View style={styles.graphContainer}>
+    
     {
       //============================================================================================================================
       //GRAPH STYLE 1
@@ -291,7 +291,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         y="ProductQuantity"
       />
     </VictoryChart>
-    </View>
+    
     {
       //============================================================================================================================
       //GRAPH 2
@@ -337,7 +337,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       domainPadding={{x: 40}}
       //scale={{x: ""}}
     >
-      <VictoryLabel text={datePickerYear} x={185} y={30} textAnchor="middle"/>
+      <VictoryLabel text={dateGraphTitle} x={185} y={30} textAnchor="middle"/>
       <VictoryAxis
       label="Months"
       style={{axisLabel:{padding: 30}}}
