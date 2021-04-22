@@ -1,3 +1,4 @@
+// Imported Libraries
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Button, TouchableOpacity, Linking} from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
@@ -8,135 +9,86 @@ import { withAuthenticator, Authenticator } from 'aws-amplify-react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Navigator from '../routes/homeStack.js';
 
-//Test
-
+//Export Function
 export default function Home({ navigation, updateAuthState }){
 
+    //Navigator for UserPost Page
     const pressHandler1 = () => {
         navigation.navigate('Harvest');
     }
+    //Navigator for Stats Page
     const pressHandler2 = () => {
         navigation.navigate('Stats');
     }
 
+    //Sign-out function
     async function signOut(){
+      //Confirm that user is able to sign-out
       try{
+        //Print success message to console
         await Auth.signOut();
         console.log('✅ Successfully Logged Out');
+        //Update Auth State
         updateAuthState('loggedOut');
       }
+      //Else, print error message in console
       catch(error){
         console.log("Error signing out : ", error);
       }
     }
 
+    //Navigator for Web Browser link -> Leads to Nourish Website
     const _handlePressButtonAsync = async () => {
         let result = await WebBrowser.openBrowserAsync('https://www.nourishproject.ca/contact-us');
         setResult(result);
       };
 
     return(
-
+      //Main Container
       <View style={styles.container}>
-
-          {/* Titles */}
-
+          //Title
           <Text style={styles.profileHeading}> Home </Text>
 
-          {/* Profile Picture */}
-
-          {/* <View style={styles.profilePicture}>
-            <ProfilePicture
-            isPicture={true}
-            shape='circle'
-            backgroundColor='#7060eb'
-
-            />
-          </View> */}
-
-          {/* Change Profile Picture */}
-
-          <TouchableOpacity style={styles.profilePictureButton} onPress = {_handlePressButtonAsync}>
+          //Contact-Us Button -> Will activate WebBrowser Navigator
+          <TouchableOpacity style={styles.contactUsButton} onPress = {_handlePressButtonAsync}>
             <Text style={styles.loginText}> Contact us! </Text>
           </TouchableOpacity>
 
-          {/* Post Harvest Data Button */}
-
+          //Post Harvest Data Button
           <TouchableOpacity style={styles.profileButtons} onPress = {pressHandler1}>
             <Text style={styles.loginText}>Post Harvest Data</Text>
           </TouchableOpacity>
 
-          {/* View Statistics Button */}
-
+          //View Statistics Button
           <TouchableOpacity style={styles.profileButtons} onPress = {pressHandler2}>
             <Text style={styles.loginText}>View Statistics</Text>
           </TouchableOpacity>
 
+          //Sign-out button -> Will activate signOut function
           <TouchableOpacity style={styles.signupBtn} onPress= {signOut}>
-
             <Text style={styles.loginText}> LOG OUT </Text>
-
           </TouchableOpacity>
-
         </View>
-
     )
 }
 
-
+// Styling for Page
 const styles = StyleSheet.create({
+    //Container
     container: {
     flex: 1,
     backgroundColor: '#29C16C',
     alignItems: 'center',
-    // justifyContent: 'center',
     },
+    //Title
     profileHeading:{
-    // fontWeight:"bold",
     marginTop:45,
     fontSize:40,
     color:"#ffffff",
     marginBottom:25
     },
-    logo2:{
-    // fontWeight:"bold",
-    fontSize:20,
-    color:"#ffffff",
-    marginBottom:40
-    },
-    inputView:{
-    width:"80%",
-    backgroundColor:"#ffffff",
-    borderRadius:15,
-    height:50,
-    marginBottom:20,
-    justifyContent:"center",
-    padding:20
-    },
-
-    inputText:{
-    height:50,
-    color:"#003f5c"
-    },
-    dropDown:{
-    // Empty
-    },
-    forgot:{
-    color:"white",
-    fontSize:13,
-    textDecorationLine: 'underline'
-    },
-    loginBtn:{
-    width:"50%",
-    backgroundColor:"#EE7729",
-    borderRadius:15,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
-    marginBottom:10
-    },
-    profilePictureButton:{
+    //Contact Us Button
+    contactUsButton:{
     width:"25%",
     backgroundColor:"#EE7729",
     borderRadius:10,
@@ -146,6 +98,7 @@ const styles = StyleSheet.create({
     marginTop:20,
     marginBottom:40
     },
+    //Navigator Buttons
     profileButtons:{
     width:"75%",
     backgroundColor:"#202b30",
@@ -156,12 +109,11 @@ const styles = StyleSheet.create({
     marginTop:20,
     marginBottom:10
     },
+    //Navigator Button Text
     loginText:{
     color:"white",
     },
-    profilePicture:{
-    padding:20,
-    },
+    //signOut button
     signupBtn:{
     width:"100%",
     backgroundColor:"#EE7729",
@@ -172,8 +124,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom:0,
     marginTop:40,
-    // marginBottom:10
-    },flatView:{
+    },
+    //View
+    flatView:{
     height: 50
     }
 });

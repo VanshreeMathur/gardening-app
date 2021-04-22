@@ -1,25 +1,24 @@
+// Imported Libraries
 import 'react-native-gesture-handler';
-
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, Button, TouchableWithoutFeedback, Keyboard, Alert
-} from 'react-native'
-
-import { Amplify, API, graphqlOperation } from 'aws-amplify'
-import { createUserPost } from '../graphql/mutations'
-import { listUserPosts } from '../graphql/queries'
-
+} from 'react-native';
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { createUserPost } from '../graphql/mutations';
+import { listUserPosts } from '../graphql/queries';
 import RadioButtonRN from 'radio-buttons-react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
-import awsconfig from '../aws-exports'
+import awsconfig from '../aws-exports';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 Amplify.configure(awsconfig)
 
+// default values of data set to be pushed to the database
 const initialState = {user_id: 1, product_type: -1, product_size: -1, product_quantity: -1, timeline_start: "", timeline_end: ""};
 
+// allows the user to click anywhere on the screen to dismiss the keyboard
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress ={() => Keyboard.dismiss()}>
     {children}
@@ -28,8 +27,7 @@ const DismissKeyboard = ({ children }) => (
 
 export default function UserPost(){
 
-  // this.state = {date: Date.now()}
-
+  // formstate set to initialState by default
   const [formState, setFormState] = useState(initialState);
   const [userPosts, setUserPosts] = useState([]);
 
@@ -37,14 +35,15 @@ export default function UserPost(){
     fetchUserPosts()
   }, [])
 
+  // update specific value in the formstate with user provided data
   function setInput(key, value){
     setFormState({ ...formState, [key]: value });
   }
 
+  // grab user posts from database (currently not displaying this data anywhere)
   async function fetchUserPosts(){
 
     try{
-
       const userPostData = await API.graphql(graphqlOperation(listUserPosts));
       const userPosts = userPostData.data.listUserPosts.items;
       setUserPosts(userPosts);
@@ -53,6 +52,7 @@ export default function UserPost(){
 
   }
 
+  // submit user post to the database
   async function addUserPost(){
     try{
       const userPost = {...formState};
@@ -63,7 +63,7 @@ export default function UserPost(){
     } catch (err) {
       // console.log('Error creating post:', err);
     }
-
+    // provide success message
     Alert.alert(
       "Done",
       "Your harvest has been recorded!",
@@ -75,9 +75,12 @@ export default function UserPost(){
     )
   }
 
+  // validates form fields
   function validate(){
 
-    if(formState.product_type == -1){
+    // if product type is invalid
+    if(formState.product_type == -1 || formState.product_type == null){
+      // send error
       Alert.alert(
         "Error",
         "Please select a product type.",
@@ -88,7 +91,9 @@ export default function UserPost(){
         ]
       )
     }
+    // if product size is invalid
     else if(formState.product_size == -1){
+      // send error
       Alert.alert(
         "Error",
         "Please select a product size.",
@@ -99,7 +104,9 @@ export default function UserPost(){
         ]
       )
     }
+    // if product quantity is invalid
     else if(!Number.isInteger(parseFloat(formState.product_quantity)) || formState.product_quantity < 0){
+      // send error
       Alert.alert(
         "Error",
         "Invalid product quantity.",
@@ -110,13 +117,27 @@ export default function UserPost(){
         ]
       )
     }
+    // if timeline_start (month) is invalid
+    else if(formState.timeline_start == "" || formState.timeline_start == null){
+      // send error
+      Alert.alert(
+        "Error",
+        "Please select a harvest month.",
+        [
+          {
+            text: "Okay",
+          }
+        ]
+      )
+    }
+    // if no errors were sent
     else{
+      // add post to database
       addUserPost();
     }
   }
 
-
-
+  // data for radio buttons
   const buttonData = [
     {
       label: 'Large',
@@ -131,30 +152,8 @@ export default function UserPost(){
       value: 2
     }
   ]
-
-  //====================
-//Setting up Date Picker
-const [date, setDate] = useState(new Date());
-const [mode, setMode] = useState('date');
-const [show, setShow] = useState(true);
-
-// when date is selected
-const onChange = (event, selectedDate) => {
-  const currentDate = selectedDate || date;
-  setShow(Platform.OS === 'ios');
-  setDate(currentDate);
-};
-
-const showMode = (currentMode) => {
-  setShow(true);
-  setMode(currentMode);
-};
-
-const showDatepicker = () => {
-  showMode('date');
-};
-
     return (
+      // allows keyboard dismiss by tapping anywhere on screen
       <DismissKeyboard>
 
         <View style={styles.container}>
@@ -162,12 +161,20 @@ const showDatepicker = () => {
 
           <Text style = {styles.headings}> Product Type </Text>
 
+          {/* Product Type */}
+
           <View style={styles.picker}>
             <RNPickerSelect
+              // send value
               onValueChange={(value) => setInput('product_type',value)}
+              // useNativeAndroidPickerStyle={false}
               items={[
                 { label: 'Tomatoes', value: 0},
+<<<<<<< HEAD
                 { label: 'Lettuce', value: 1},
+=======
+                { label: 'Head of Lettuce', value: 1},
+>>>>>>> 85b06e9482de2a4bad685a3497a389cc8af64292
                 { label: 'Kale', value: 2},
                 { label: 'Carrots', value: 3},
                 { label: 'Peppers', value: 4},
@@ -186,10 +193,13 @@ const showDatepicker = () => {
           <View style = {styles.inputText}>
             <Text style = {styles.headings}> Average Product Size </Text>
           </View>
+          
+          {/* Product Size Radio Buttons */}
 
           <View style={styles.btnBox}>
             <RadioButtonRN
               data = {buttonData}
+              // send value
               selectedBtn = {(e) => setInput('product_size', e.value)}
               style = {styles.newBtn}
             />
@@ -199,63 +209,56 @@ const showDatepicker = () => {
           <View style = {styles.headings}>
               <Text style = {styles.headings}> Estimated Pieces of Product </Text>
           </View>
+          
+          {/* Product Quantity */}
 
           <View style={styles.inputView} >
           <TextInput
               keyboardType = 'numeric'
+              // send value
               onChangeText={val => setInput('product_quantity', val)}
               style={styles.inputText}
               value = {formState.product_quantity}
               placeholder = "Product Quantity"
               />
           </View>
-        
-    { //============================================================================================================================
-      // year picker for the graph
-      // button doesnt do anything... but the way this is set up atm the datetime picker doesnt work without the button.
-    }
-    <View>
-    <View>
-        <Button onPress={showDatepicker} title="Pick Date!" />
-    </View>     
-      {show && (
-        <DateTimePicker
-          minimumDate={new Date(2021, 0, 1)}
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-      )}
-    </View>
 
-          {/* DATE PICKERS HERE */}
+          <Text style = {styles.headings}> Harvest Month </Text>
+          
+          {/* Month Picker */}
 
-            {/* <View style={styles.inputView} >
-              <TextInput
-                  onChangeText={val => setInput('timeline_start', val)}
-                  style={styles.inputText}
-                  value = {formState.timeline_start}
-                  placeholder="Timeline Start"
-                  />
-              </View>
+          <View style={styles.picker}>
+            <RNPickerSelect
+              //currently month value is stored as a string in timeline_start as I could not edit the schema (optimally this would be changed)
+              // send value
+              onValueChange={(value) => setInput('timeline_start',value)}
+              items={[
+                { label: 'January', value: 0},
+                { label: 'February', value: 1},
+                { label: 'March', value: 2},
+                { label: 'April', value: 3},
+                { label: 'May', value: 4},
+                { label: 'June', value: 5},
+                { label: 'July', value: 6},
+                { label: 'August', value: 7},
+                { label: 'September', value: 8},
+                { label: 'October', value: 9},
+                { label: 'November', value: 10},
+                { label: 'December', value: 11}
+              ]}
+              style={customPickerStyles.inputIOS}
+            />
+          </View>
 
-              <View style={styles.inputView} >
-              <TextInput
-                  onChangeText={val => setInput('timeline_end', val)}
-                  style={styles.inputText}
-                  value = {formState.timeline_end}
-                  placeholder="Timeline End"
-                  />
-              </View> */}
-
+          {/* Create Post Button */}
+          {/* Calls Validation Function */}
           <TouchableOpacity title="Create Post" style= {styles.submit} onPress={validate}>
             <Text style = {styles.btnText}> Create Post </Text>
           </TouchableOpacity>
 
           {/* {
+
+            // LISTS THE USER POSTS ON SCREEN
 
           userPosts.map((userPost, index) => (
 
@@ -318,6 +321,10 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     padding:20,
   },
+  dateButton: {
+    marginBottom:20,
+    color:"#EE7729",
+  },
   btnText: {
     color: 'white'
   },
@@ -333,6 +340,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#444',
     padding: 15,
     borderRadius: 15,
+    marginTop: 15
   },
   date: {
     backgroundColor: '#EE7729',
@@ -363,7 +371,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#29A86B',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 250
+    paddingBottom: 150
   },
   logo:{
     // fontWeight:"bold",

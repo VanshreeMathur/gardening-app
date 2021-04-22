@@ -22,7 +22,7 @@ var datePickerYear = [0]; // stores the year that is selected within the date pi
 // ideas ( drop down picker for each option, when you click submit the filters go through an if statement where the data from the picker dictates what style of filters we use)
 // still need to figure out what curr user id is so they only see their personal stats.
 
-  
+
 
 //****************************************************************************************************************//
 // Stats Function ( where we see stuff on screen)                                                                 //
@@ -117,7 +117,7 @@ async function fetchUserName(){
     setPickerResult(pickerData[0]);
   }
 
-  
+
 //****************************************************************************************************************//
 // Graph filters for Peterborough Data                                                                            //
 // Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start        
@@ -132,9 +132,15 @@ async function ProductYFilter(){
       and: [{ product_type: {eq: pickerData[0]}},
     { product_quantity: {ge: 0} }]
   }
+<<<<<<< HEAD
   const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}}); // queries for listUserPosts, uses filter we previously made 
   const filteredData = filterYData.data.listUserPosts.items; // filteredData is equal to all the data that we filter queried.
   setFilteredData(filteredData); //update filteredData state
+=======
+  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
+  const filteredData = filterYData.data.listUserPosts.items;
+  setFilteredData(filteredData);
+>>>>>>> 85b06e9482de2a4bad685a3497a389cc8af64292
   return filterYData;
   } catch (err) { console.log('Error creating filter.')};
 
@@ -164,7 +170,7 @@ const graphTwoYData = [ // graph two data for type vs size
 
 ];
 
-const graphThreeYData = [ // graph two data for type vs timeline start 
+const graphThreeYData = [ // graph two data for type vs timeline start
 {TimelineStart: 1, ProductQuantity: 2},
 //{TimelineStart: 1, ProductQuantity: filterTimeData},
 {TimelineStart: 2, ProductQuantity:4},
@@ -247,7 +253,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
     <View>
         <Button onPress={showDatepicker} title="Pick Date!" />
       </View>
-      
+
       {show && (
         <DateTimePicker
           minimumDate={new Date(2021, 0, 1)}
@@ -378,10 +384,10 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#f5fcff",
-      
+
   },
     ScrollView:{
-          paddingHorizontal: 20,      
+          paddingHorizontal: 20,
     },
     loginBtn:{
       width:"50%",
