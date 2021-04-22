@@ -1,5 +1,5 @@
+//Imported Libraries
 import React, { useEffect, useState, useCallback } from 'react';
-//import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text,TouchableOpacity, Button, Alert, SafeAreaView, ScrollView} from 'react-native';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel} from "victory-native";
 import * as queries from '../graphql/queries';
@@ -17,16 +17,8 @@ var statsData = [0]; // array that will contain each value selected
 var datePickerYear = [0]; // stores the year that is selected within the date picker
 
 //****************************************************************************************************************//
-// NOTES
-// Still need to make a way to choose what style of data to pick, user data vs peterborough data
-// ideas ( drop down picker for each option, when you click submit the filters go through an if statement where the data from the picker dictates what style of filters we use)
-// still need to figure out what curr user id is so they only see their personal stats.
-
-
-
-//****************************************************************************************************************//
-// Stats Function ( where we see stuff on screen)                                                                 //
-// Shows submit button (submits contents of ddPicker), drop down picker (list of product)                         //
+// Stats Function                                                                                                 //
+// Shows submit button (submits contents of ddPicker), drop down picker (list of products)                         //
 // Shows 3 graphs, each using data from the user selection on the ddpicker.                                       //
 //****************************************************************************************************************//
 export default function Stats({navigation}){
@@ -39,16 +31,8 @@ export default function Stats({navigation}){
   }, [])
 
 
-
-
-
-
-
-
-
-
 //****************************************************************************************************************//
-//TESTING fetch stuff
+//Fetch Commands
 const [userPosts, setUserPosts] = useState([]);
 const [currUserName, setCurrUserName] = useState([]);
 
@@ -69,7 +53,8 @@ const [show, setShow] = useState(true);
 datePickerYear = date.getFullYear(); // this gets the year that is selected in the date picker
 const datePickermonth = date.getMonth(); // this gets the year that is selected in the date picker
 const dateGraphTitle = datePickerYear + "/" + datePickermonth;
-// when date is selected
+
+//User selects date
 const onChange = (event, selectedDate) => {
   const currentDate = selectedDate || date;
   setShow(Platform.OS === 'ios');
@@ -81,14 +66,14 @@ const showMode = (currentMode) => {
   setMode(currentMode);
 };
 
+//Show DatePicker
 const showDatepicker = () => {
   showMode('date');
 };
 
+//Fetch User Posts Function
 async function fetchUserPosts(){
-
   try{
-  
     const userPostData = await API.graphql(graphqlOperation(listUserPosts));
     const userPosts = userPostData.data.listUserPosts.items;
     setUserPosts(userPosts);
@@ -97,55 +82,47 @@ async function fetchUserPosts(){
   } catch (err) { {/*console.log('Error fetching posts.') */}};
 }
 
+//Fetch Username Function
 async function fetchUserName(){
-
   try{
-
     const { username } = await Auth.currentAuthenticatedUser();
     const currUserName = username;
     setCurrUserName(currUserName);
-
-
   } catch (err) { {/*console.log('Error fetching posts.') */}};
 
 }
 
-
-
-  // updates graph using drop down lists data
+  // Updates graph using drop down lists data
   const updateGraphHandler = () => {
     setPickerResult(pickerData[0]);
   }
 
-
 //****************************************************************************************************************//
 // Graph filters for Peterborough Data                                                                            //
-// Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start        
+// Graph1 type vs quantity, Graph2 type vs Size, Graph3 type vs timeline start
 //
 // FOR USER STATS:  add user_id: {eq: currUserName } to the filter  (currUserName is set in fetchUserName)
 //****************************************************************************************************************//
 //========================================================================================================
-async function ProductYFilter(){
+async function ProductYFilter()
+{
   try{
+      let yfilter =
+      {
+        and: [{ product_type: {eq: pickerData[0]}},
+        { product_quantity: {ge: 0} }]
+      }
+      const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
+      const filteredData = filterYData.data.listUserPosts.items;
+      setFilteredData(filteredData);
+      return filterYData;
+    }
+    catch (err) { console.log('Error creating filter.')};
+}
 
-    let yfilter = {
-      and: [{ product_type: {eq: pickerData[0]}},
-    { product_quantity: {ge: 0} }]
-  }
-  const filterYData = await API.graphql({ query: listUserPosts, variables: {filter: yfilter}});
-  const filteredData = filterYData.data.listUserPosts.items;
-  setFilteredData(filteredData);
-  return filterYData;
-  } catch (err) { console.log('Error creating filter.')};
-
-  }
-
-    var filterQuantityData = [filteredData.product_quantity]; // not used yet as it doesnt work but takes all items that are filtered, and pickes just the quantity 
-    var filterTimeData = [filteredData.timeline_start]; //not used yet as it doesnt work but takes all items that are filtered, and pickes just the timeline_start
-    var filterSizeData = [filteredData.product_size]; //not used yet as it doesnt work but takes all items that are filtered, and pickes just the size
-
-
-
+  var filterQuantityData = [filteredData.product_quantity]; // IN PROGRESS: not used yet as it doesnt work but takes all items that are filtered, and pickes just the quantity
+  var filterTimeData = [filteredData.timeline_start]; //IN PROGRESS: not used yet as it doesnt work but takes all items that are filtered, and pickes just the timeline_start
+  var filterSizeData = [filteredData.product_size]; //IN PROGRESS: not used yet as it doesnt work but takes all items that are filtered, and pickes just the size
 
 
 //****************************************************************/
@@ -153,15 +130,10 @@ async function ProductYFilter(){
 
 const graphOneYData = [ // graph one data used for type vs quantity
   {ProductType: 1, ProductQuantity: userPosts /*filterQuantityData*/},
-
-
 ];
 
 const graphTwoYData = [ // graph two data for type vs size
-
 {ProductType: 1, ProductSize: filterSizeData},
-
-
 ];
 
 const graphThreeYData = [ // graph two data for type vs timeline start
@@ -179,42 +151,35 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 {TimelineStart: 11, ProductQuantity: 14},
 {TimelineStart: 12, ProductQuantity: 300},
 // if we are showing every month its set up like this, if we want to just show one month at a time, it needs to add that to the filter then delete the last 11 lines of data
-
 ];
 
  //******************************************************************************************************************************************************************//
  // RETURN STARTS                                                     RETURN STARTS                                                               RETURN STARTS      //
  //******************************************************************************************************************************************************************//
 
- // if() // if we are using product quantity vs type   (if user data == this type of graph)
+// if we are using product quantity vs type   (if user data == this type of graph)
   {
     return(
-
-
 //==================================================
 // BUTTON FOR SUBMITTING USER DROP DOWN PICKER DATA
 //==================================================
 <SafeAreaView style={styles.container}>
-<ScrollView contentContainerStyle={{flexGrow: 1, justifyContent:'center',alignItems: 'center'}}> 
+<ScrollView contentContainerStyle={{flexGrow: 1, justifyContent:'center',alignItems: 'center'}}>
 
 <TouchableOpacity style={styles.profileButtons} onPress = {updateGraphHandler}>
-            <Text style={styles.loginText}>Submit</Text>
-          </TouchableOpacity>
+<Text style={styles.loginText}>Submit</Text>
+</TouchableOpacity>
 
-          <View style={styles.picker}>
-      <RNPickerSelect
-      pickerProps={{
-        title: 'X Axis Options'
-      }}
-        onValueChange={(value) => (statsData[0] = value)}
-        items={[
-          { label: 'Your Stats', value: 0},
-          { label: 'Peterborough Stats', value: 1},
-        ]}
-        //style={customPickerStyles.inputIOS}
-      />
-    </View>
-
+<View style={styles.picker}>
+<RNPickerSelect
+  pickerProps={{title: 'X Axis Options'}}
+  onValueChange={(value) => (statsData[0] = value)}
+  items=
+  {[{ label: 'Your Stats', value: 0},
+  { label: 'Peterborough Stats', value: 1},]}
+  //style={customPickerStyles.inputIOS}
+  />
+  </View>
 
 <View style={styles.picker}>
       <RNPickerSelect
@@ -239,14 +204,15 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         //style={customPickerStyles.inputIOS}
       />
     </View>
+
     {//============================================================================================================================
       // year picker for the graph
-      // button doesnt do anything... but the way this is set up atm the datetime picker doesnt work without the button.
+      // Button does not have a function... but the datetime picker does not work without the button.
     }
     <View>
     <View>
         <Button onPress={showDatepicker} title="Pick Date!" />
-      </View>
+    </View>
 
       {show && (
         <DateTimePicker
@@ -261,7 +227,6 @@ const graphThreeYData = [ // graph two data for type vs timeline start
       )}
     </View>
 
-    
     {
       //============================================================================================================================
       //GRAPH STYLE 1
@@ -291,7 +256,7 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         y="ProductQuantity"
       />
     </VictoryChart>
-    
+
     {
       //============================================================================================================================
       //GRAPH 2
@@ -322,7 +287,6 @@ const graphThreeYData = [ // graph two data for type vs timeline start
         y="ProductSize"
       />
     </VictoryChart>
-
 
     {
       //============================================================================================================================
@@ -359,12 +323,11 @@ const graphThreeYData = [ // graph two data for type vs timeline start
 
     </ScrollView>
     </SafeAreaView>
-
     )
   }
-
 }
 
+//Styling for Page
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -393,27 +356,27 @@ const styles = StyleSheet.create({
       justifyContent:"center",
       marginTop:40,
       marginBottom:10
-      },
-      loginText:{
-        color:"white",
-        },
-        profileButtons:{
-          width:"75%",
-          backgroundColor:"#202b30",
-          borderRadius:15,
-          height:50,
-          alignItems:"center",
-          justifyContent:"center",
-          marginTop:20,
-          marginBottom:10
-          },
-          picker: {
-            width:"80%",
-            backgroundColor:"#ffffff",
-            borderRadius:15,
-            height:50,
-            marginBottom:20,
-            justifyContent:"center",
-            padding:20,
-          }
+    },
+    loginText:{
+      color:"white",
+    },
+    profileButtons:{
+      width:"75%",
+      backgroundColor:"#202b30",
+      borderRadius:15,
+      height:50,
+      alignItems:"center",
+      justifyContent:"center",
+      marginTop:20,
+      marginBottom:10
+    },
+    picker: {
+      width:"80%",
+      backgroundColor:"#ffffff",
+      borderRadius:15,
+      height:50,
+      marginBottom:20,
+      justifyContent:"center",
+      padding:20,
+   }
 });
