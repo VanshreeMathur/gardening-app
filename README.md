@@ -1,6 +1,6 @@
 # Nourish - Local Garden Growth Application
 
-**This project is currently incomplete.**
+**This project is currently in-progress. Please come back for final release!**
 
 **Project Name** <br>
 Nourish: Harvest Data Collection App
